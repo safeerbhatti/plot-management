@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->integer('userId');
-            $table->integer('bookingId');
+            $table->integer('user_id');
+            $table->integer('booking_id');
             $table->string('booking_month');
             $table->decimal('instalment_amount');
             $table->timestamps();

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('plots', function (Blueprint $table) {
             $table->id();
-            $table->integer('schemeId');
+            $table->integer('scheme_id');
             $table->integer('plot_number')->unique();
             $table->integer('plot_area_in_square_feet');
             $table->timestamps();

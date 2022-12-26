@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookedCustomer;
+use App\Models\Due;
 use App\Models\Plot;
 use App\Models\Booking;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -15,7 +18,8 @@ class BookingController extends Controller
      */
     public function index()
     {
-        return view('bookings.index');
+        $bookings = Booking::all();
+        return view('bookings.index', compact('bookings'));
     }
 
     /**
@@ -48,18 +52,22 @@ class BookingController extends Controller
         ]);
 
         $plot = Plot::where('plot_number', $validated['plot_number'])->first();
-        if(!$plot)
-        {
+        if (!$plot) {
             return 'Plot number does not exist';
         }
-        $amount = ($validated['price_square_feet'] * $plot->plot_area_in_square_feet) +         
-                  ($validated['number_of_dev_charges']*$validated['development_charges']);        
-        
-        $duration = ($amount-$validated['down_payment']) / $validated['instalment_per_month'];
+        $amount = ($validated['price_square_feet'] * $plot->plot_area_in_square_feet) +
+            ($validated['number_of_dev_charges'] * $validated['development_charges']);
 
-        Booking::create([
-            'plotId' => $plot->id,
-            'userId' => 1,
+        $duration = ($amount - $validated['down_payment']) / $validated['instalment_per_month'];
+
+        $timesDevPaid = 0;
+
+        $remainingAmount = $amount - $validated['down_payment'] -
+            ($timesDevPaid * $validated['development_charges']);
+
+        $booking = Booking::create([
+            'plot_id' => $plot->id,
+            'user_id' => 1,
             'price_square_feet' => $validated['price_square_feet'],
             'total_amount' => $amount,
             'down_payment' => $validated['down_payment'],
@@ -68,9 +76,15 @@ class BookingController extends Controller
             'khata_number' => $validated['khata_number'],
             'agreement_number' => $validated['agreement_number'],
             'number_of_dev_charges' => $validated['number_of_dev_charges'],
-            'paid_number_of_dev_charges' => 0,
+            'paid_number_of_dev_charges' => $timesDevPaid,
             'instalment_duration' => $duration,
+            'remaining_amount' => $remainingAmount,
         ]);
+
+        Due::create([
+            'booking_id' => $booking->id,
+        ]);
+
         return 'Booking Created';
     }
 
@@ -82,9 +96,12 @@ class BookingController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $bookedCustomers = BookedCustomer::pluck('customer_id');
+        $customers = Customer::findMany($bookedCustomers);
+        $booking = Booking::find($id);
+        return view('bookings.show', compact('booking', 'customers'));
 
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -117,5 +134,22 @@ class BookingController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function assignCustomer()
+    {
+        $bookings = Booking::pluck('id');
+        $customers = Customer::pluck('id');
+        return view('bookings.assign', compact('bookings', 'customers'));
+    }
+
+    public function saveCustomer(Request $request)
+    {
+        $validated = $request->validate([
+            'booking_id' => 'required',
+            'customer_id' => 'required',
+        ]);
+        BookedCustomer::create($validated);
+        return 'Booking assigned to customer';
     }
 }

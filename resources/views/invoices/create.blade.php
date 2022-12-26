@@ -1,10 +1,8 @@
 <form action="/invoice" method="POST">
     @csrf
     <label for="booking-id">Select Booking ID</label>
-    <select for="bookingId" name="bookingId" id="bookingId">
-        @foreach($bookings as $booking)
-        <option value="{{ $booking }}">{{ $booking }}</option>
-        @endforeach
+    <select for="booking_id" name="booking_id" id="booking_id">
+        <option value="{{ $booking }}">{{$booking}}</option>
     </select>
     <label for="booking_month">Booking Month</label>
     <input type="text" name="booking_month" id="booking_month" value="{{old('booking_month')}}">

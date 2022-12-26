@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('dues', function (Blueprint $table) {
             $table->id();
-            $table->integer('bookingId');
-            $table->decimal('dues_remaining');
+            $table->integer('booking_id');
+            $table->decimal('dues_remaining')->default(0);
             $table->timestamps();
         });
     }

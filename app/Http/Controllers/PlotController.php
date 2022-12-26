@@ -51,7 +51,7 @@ class PlotController extends Controller
         Plot::create([
             'plot_number' => $validated['plot_number'],
             'plot_area_in_square_feet' => $validated['plot_area_in_square_feet'],
-            'schemeId' => $scheme->id,
+            'scheme_id' => $scheme->id,
 
         ]);
 

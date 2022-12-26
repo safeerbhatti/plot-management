@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('booked_customers', function (Blueprint $table) {
             $table->id();
-            $table->integer('bookingId');
-            $table->integer('customerId');
+            $table->integer('booking_id');
+            $table->integer('customer_id');
             $table->timestamps();
         });
     }

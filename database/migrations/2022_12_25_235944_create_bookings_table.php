@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->integer('userId');
-            $table->integer('plotId');
+            $table->integer('user_id');
+            $table->integer('plot_id');
             $table->decimal('price_square_feet');
             $table->decimal('total_amount');
             $table->decimal('down_payment');
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('agreement_number');
             $table->string('number_of_dev_charges');
             $table->string('paid_number_of_dev_charges');
+            $table->decimal('remaining_amount');
             $table->integer('instalment_duration');
             $table->timestamps();
         });
