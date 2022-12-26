@@ -1,0 +1,1 @@
+<a href="/booking/create">Create new booking</a>
