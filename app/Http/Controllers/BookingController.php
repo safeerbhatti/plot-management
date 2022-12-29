@@ -43,12 +43,12 @@ class BookingController extends Controller
         $validated = $request->validate([
             'price_square_feet' => 'required',
             'down_payment' => 'required',
-            'instalment_per_month' => 'required',
             'development_charges' => 'required',
             'khata_number' => 'required',
             'agreement_number' => 'required',
             'number_of_dev_charges' => 'required',
             'plot_number' => 'required',
+            'instalment_duration' => 'required',
         ]);
 
         $plot = Plot::where('plot_number', $validated['plot_number'])->first();
@@ -58,12 +58,14 @@ class BookingController extends Controller
         $amount = ($validated['price_square_feet'] * $plot->plot_area_in_square_feet) +
             ($validated['number_of_dev_charges'] * $validated['development_charges']);
 
-        $duration = ($amount - $validated['down_payment']) / $validated['instalment_per_month'];
+        $duration = $validated['instalment_duration'];
 
         $timesDevPaid = 0;
 
         $remainingAmount = $amount - $validated['down_payment'] -
             ($timesDevPaid * $validated['development_charges']);
+
+        $monthlyInstalment = $remainingAmount / $duration;
 
         $booking = Booking::create([
             'plot_id' => $plot->id,
@@ -71,7 +73,7 @@ class BookingController extends Controller
             'price_square_feet' => $validated['price_square_feet'],
             'total_amount' => $amount,
             'down_payment' => $validated['down_payment'],
-            'instalment_per_month' => $validated['instalment_per_month'],
+            'instalment_per_month' => $monthlyInstalment,
             'development_charges' => $validated['development_charges'],
             'khata_number' => $validated['khata_number'],
             'agreement_number' => $validated['agreement_number'],
@@ -79,6 +81,7 @@ class BookingController extends Controller
             'paid_number_of_dev_charges' => $timesDevPaid,
             'instalment_duration' => $duration,
             'remaining_amount' => $remainingAmount,
+            'remaining_duration' => $duration,
         ]);
 
         Due::create([
@@ -96,7 +99,7 @@ class BookingController extends Controller
      */
     public function show($id)
     {
-        $bookedCustomers = BookedCustomer::pluck('customer_id');
+        $bookedCustomers = BookedCustomer::where('booking_id', $id)->pluck('customer_id');
         $customers = Customer::findMany($bookedCustomers);
         $booking = Booking::find($id);
         return view('bookings.show', compact('booking', 'customers'));

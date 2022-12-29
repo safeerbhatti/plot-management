@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('paid_number_of_dev_charges');
             $table->decimal('remaining_amount');
             $table->integer('instalment_duration');
+            $table->integer('remaining_duration');
             $table->timestamps();
         });
     }

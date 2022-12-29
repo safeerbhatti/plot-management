@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('booking_id');
             $table->string('booking_month');
             $table->decimal('instalment_amount');
+            $table->decimal('dues');
             $table->timestamps();
         });
     }

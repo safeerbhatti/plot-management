@@ -13,8 +13,8 @@
     <input type="number" name="down_payment" id="down_payment" value="{{old('down_payment')}}">
     <br>
 
-    <label for="instalment_per_month">Instalment/Month</label>
-    <input type="number" name="instalment_per_month" id="instalment_per_month" value="{{old('instalment_per_month')}}">
+    <label for="instalment_duration">Instalment Duration</label>
+    <input type="number" name="instalment_duration" id="instalment_duration" value="{{old('instalment_duration')}}">
     <br>
 
     <label for="development_charges">Development Charges Amount</label>

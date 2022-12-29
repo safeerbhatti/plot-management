@@ -14,7 +14,8 @@ class SchemeController extends Controller
      */
     public function index()
     {
-        return view('schemes.index');
+        $schemes = Scheme::all();
+        return view('schemes.index', compact('schemes'));
     }
 
     /**
@@ -51,7 +52,9 @@ class SchemeController extends Controller
      */
     public function show($id)
     {
-        //
+        $scheme = Scheme::find($id);
+
+        return view('schemes.show', compact('scheme'));
     }
 
     /**

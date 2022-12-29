@@ -18,11 +18,11 @@ Number of payments remaining {{ $booking->number_of_dev_charges - $booking->paid
 Down Payment: Rupees {{ $booking->down_payment}}/- <br>
 Instalment/Month: Rupees {{ $booking->instalment_per_month}}/- <br>
 Remaining Amount: Rupees {{ $booking->remaining_amount }}/- <br>
-Instalments Duration: Rupees {{ $booking->instalment_duration }} months. <br>
+Total Instalment Duration: {{ $booking->instalment_duration }} months. <br>
+Remaining Instalments Duration: {{ $booking->remaining_duration }} months. <br>
 <br>
 <a href="/invoices/{{$booking->id}}">Click here</a> to check paid invoices. <br>
-<a href="/dues/{{$booking->id}}">Click here</a> to check remaining dues.
-<a href="/invoice/create/{{$booking->id}}">Click here</a> to pay Instalment.
+<a href="/invoice/pay/{{$booking->id}}">Click here</a> to pay Instalment.
 
 <h2>Customer(s) Information</h2>
 @foreach($customers as $customer)

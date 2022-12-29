@@ -15,7 +15,10 @@ class PlotController extends Controller
      */
     public function index()
     {
-        return view('plots.index');
+
+        $plots = Plot::all();
+
+        return view('plots.index', compact('plots'));
     }
 
     /**

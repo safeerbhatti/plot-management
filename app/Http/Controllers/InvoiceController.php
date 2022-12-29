@@ -17,7 +17,7 @@ class InvoiceController extends Controller
     public function index()
     {
         return view('invoices.index');
-    } 
+    }
 
     public function list($id)
     {
@@ -33,11 +33,17 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($booking)
+    public function pay($booking)
     {
 
         $booking = Booking::find($booking)->id;
-        return view('invoices.create', compact('booking'));
+        return view('invoices.pay', compact('booking'));
+    }
+
+    public function create()
+    {
+        $bookings = Booking::all();
+        return view('invoices.create', compact('bookings'));
     }
 
     /**
@@ -53,6 +59,12 @@ class InvoiceController extends Controller
             'booking_id' => 'required',
             'instalment_amount' => 'required',
         ]);
+
+        $booking = Booking::find($validated['booking_id']);
+        $booking->remaining_amount -= $validated['instalment_amount'];
+        $booking->remaining_duration -= 1;
+        $booking->save();
+
         $invoice = Invoice::create([
             'booking_id' => $validated['booking_id'],
             'booking_month' => $validated['booking_month'],
@@ -60,22 +72,32 @@ class InvoiceController extends Controller
             'user_id' => 1,
         ]);
 
-        $booking = Booking::find($validated['booking_id']);
-        $booking->remaining_amount -= $validated['instalment_amount'];
-        $booking->save();
-
         $dues = null;
 
-        if($invoice->instalment_amount < $booking->instalment_per_month)
-        {
+        if ($invoice->instalment_amount < $booking->instalment_per_month) {
             $dues = Due::where('booking_id', $validated['booking_id'])->first();
             $dues->dues_remaining += $booking->instalment_per_month - $invoice->instalment_amount;
             $dues->save();
         }
 
         return 'Invoice created successfully';
+    }
+
+
+    public function amountCheck($value)
+    {
+        // $remaining = $amount;
+        // if ($remaining > $checkAmount) {
+        //     $value = $valueGiven + 1;
+        //     $remaining -= $checkAmount;
+        // }
+        // return response()->json([
+        //     'value' => $value,
+        //     '$remaining' => $remaining,
+        // ], 200);
 
     }
+
 
     /**
      * Display the specified resource.
