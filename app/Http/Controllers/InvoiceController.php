@@ -36,8 +36,37 @@ class InvoiceController extends Controller
     public function pay($booking)
     {
 
-        $booking = Booking::find($booking)->id;
+        $booking = Booking::find($booking);
+
+        // find booking starting date
+        $start_date = $booking->created_at;
+
+
         return view('invoices.pay', compact('booking'));
+    }
+
+    public function getBookingMonths(Request $request)
+    {
+        $booking = Booking::find($request->booking_id);
+        $installment_year = $request->installment_year;
+
+        // generate months from january to december
+        $months = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $months[] = date('F', mktime(0, 0, 0, $i, 10)).' '.$installment_year;
+        }
+
+        // check invoices for this booking with year is installment_year
+        $invoices = Invoice::where('booking_id', $booking->id)->whereYear('created_at', $installment_year)->get();
+
+        // remove months from $months array if invoice is already generated
+        foreach ($invoices as $invoice) {
+            $month = $invoice->booking_month;
+            $key = array_search($month, $months);
+            unset($months[$key]);
+        }
+
+        return response()->json($months);
     }
 
     public function create()
@@ -55,29 +84,45 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'booking_month' => 'required',
+            'installment_month' => 'required',
             'booking_id' => 'required',
             'instalment_amount' => 'required',
         ]);
 
+
         $booking = Booking::find($validated['booking_id']);
-        $booking->remaining_amount -= $validated['instalment_amount'];
-        $booking->remaining_duration -= 1;
-        $booking->save();
+//        $booking->remaining_amount -= $validated['instalment_amount'];
+//        $booking->remaining_duration -= 1;
+//        $booking->save();
 
-        $invoice = Invoice::create([
-            'booking_id' => $validated['booking_id'],
-            'booking_month' => $validated['booking_month'],
-            'instalment_amount' => $validated['instalment_amount'],
-            'user_id' => 1,
-        ]);
+        // get instalment_per_month
+        $instalment_per_month = $booking->instalment_per_month;
 
-        $dues = null;
+        $installment_amount = $validated['instalment_amount'];
 
-        if ($invoice->instalment_amount < $booking->instalment_per_month) {
-            $dues = Due::where('booking_id', $validated['booking_id'])->first();
-            $dues->dues_remaining += $booking->instalment_per_month - $invoice->instalment_amount;
-            $dues->save();
+        // loop through months and generate invoices
+        foreach ($validated['installment_month'] as $month) {
+
+            $invoice = new Invoice();
+            $invoice->user_id = 1;
+            $invoice->booking_id = $validated['booking_id'];
+            $invoice->booking_month = $month;
+            $invoice->dues = 0;
+
+
+            // check if installment amount is greater than instalment_per_month
+            if ($installment_amount >= $instalment_per_month) {
+                $invoice->instalment_amount = $instalment_per_month;
+
+                $installment_amount = $installment_amount - $instalment_per_month;
+                $invoice->save();
+            } else {
+                $invoice->instalment_amount = $installment_amount;
+                $invoice->dues = $instalment_per_month - $installment_amount;
+                $invoice->save();
+
+                break;
+            }
         }
 
         return 'Invoice created successfully';

@@ -27,6 +27,7 @@ Route::post('/booking/assign', [BookingController::class, 'saveCustomer']);
 Route::get('/booking/assign', [BookingController::class, 'assignCustomer']);
 Route::get('/invoices/{id}', [InvoiceController::class, 'list']);
 Route::get('/invoice/pay/{booking}', [InvoiceController::class, 'pay']);
+Route::post('/invoice/getBookingMonths', [InvoiceController::class, 'getBookingMonths']);
 
 Route::resource('customer', CustomerController::class);
 Route::resource('plot', PlotController::class);
