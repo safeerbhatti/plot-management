@@ -5,44 +5,64 @@
     <input type="hidden" name="monthly_installment_fee" value="{{ $booking->instalment_per_month }}">
     <br>
 
-    <label for="installment_year">Instalment Year</label>
-    <select name="installment_year">
-        @php
-            $currentYear = date('Y');
-			// get starting year from booking created at
-            $startingYear = date('Y', strtotime($booking->created_at));
+    <div id="installment_section" style="display: none">
+        <label for="installment_year">Instalment Year</label>
+        <select name="installment_year">
+            @php
+                $currentYear = date('Y');
+                // get starting year from booking created at
+                $startingYear = date('Y', strtotime($booking->created_at));
 
-			// get booking duration
-            $bookingDuration = $booking->instalment_duration / 12;
+                // get booking duration
+                $bookingDuration = $booking->instalment_duration / 12;
 
-			// get ending year
-            $endingYear = $startingYear + $bookingDuration;
+                // get ending year
+                $endingYear = $startingYear + $bookingDuration;
 
-			// make a look which echo options with year
-            for ($i = $startingYear; $i <= $endingYear; $i++) {
-                echo "<option>$i</option>";
-            }
-        @endphp
-    </select>
-    <br>
+                // make a look which echo options with year
+                for ($i = $startingYear; $i <= $endingYear; $i++) {
+                    echo "<option>$i</option>";
+                }
+            @endphp
+        </select>
+        <br>
 
-    <label for="installment_month">Instalment Month</label>
-    <div id="installment_months"></div>
-    <br>
+        <label for="installment_month">Instalment Month</label>
+        <div id="installment_months"></div>
+        <br>
 
-    <label for="instalment_amount">Instalment Amount</label>
-    <input type="number" id="instalment_amount" readonly>
-    <br>
+        <label for="instalment_amount">Instalment Amount</label>
+        <input type="number" id="instalment_amount" readonly>
+        <br>
 
-    <label for="instalment_amount">Payable Instalment Amount</label>
-    <input type="number" name="instalment_amount" id="payable_instalment_amount" value="{{old('instalment_amount')}}">
-    <br>
+        <label for="instalment_amount">Payable Instalment Amount</label>
+        <input type="number" name="instalment_amount" id="payable_instalment_amount" value="{{old('instalment_amount')}}">
+        <br>
+    </div>
 
+
+    <div id="development_section" style="display: none;">
+        Development Fee
+    </div>
+
+    <button type="button" id="btnInvoice">Show Me Installment Invoice</button>
+    <button type="button" id="btnDev">Show Me Development Charges Invoice</button>
     <button type="submit">Submit</button>
 </form>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
+
+        $('#btnInvoice').click(function(){
+            $('#installment_section').show();
+            $('#development_section').hide();
+        });
+
+        $('#btnDev').click(function(){
+            $('#development_section').show();
+            $('#installment_section').hide();
+        });
+
         $('select[name=installment_year]').change(function(){
             var year = $(this).val();
             $.ajax({
