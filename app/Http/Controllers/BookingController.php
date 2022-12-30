@@ -29,7 +29,10 @@ class BookingController extends Controller
      */
     public function create()
     {
-        return view('bookings.create');
+        // get all plots
+        $plots = Plot::all();
+
+        return view('bookings.create', compact('plots'));
     }
 
     /**

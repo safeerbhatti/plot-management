@@ -69,7 +69,11 @@ class PlotController extends Controller
      */
     public function show($id)
     {
-        //
+        // check if request ajax
+        if (request()->ajax()) {
+            $plot = Plot::find($id);
+            return response()->json($plot);
+        }
     }
 
     /**
