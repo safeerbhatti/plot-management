@@ -144,20 +144,22 @@ class BookingController extends Controller
         //
     }
 
-    public function assignCustomer()
+    public function assignCustomer($id)
     {
-        $bookings = Booking::pluck('id');
+        $booking = $id;
         $customers = Customer::pluck('id');
-        return view('bookings.assign', compact('bookings', 'customers'));
+        return view('bookings.assign', compact('booking', 'customers'));
     }
 
     public function saveCustomer(Request $request)
     {
+
         $validated = $request->validate([
             'booking_id' => 'required',
             'customer_id' => 'required',
         ]);
-        BookedCustomer::create($validated);
-        return 'Booking assigned to customer';
+        BookedCustomer::firstOrCreate($validated);
+        
+        return redirect('/booking'.'/'.$validated['booking_id']);
     }
 }

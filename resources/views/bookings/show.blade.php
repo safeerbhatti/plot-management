@@ -26,8 +26,8 @@ Total Instalment Duration: {{ $booking->instalment_duration }} months. <br>
 Remaining Instalments Duration: {{ $booking->remaining_duration }} months. <br>
 <br>
 <a href="/invoices/{{$booking->id}}">Click here</a> to check paid invoices. <br>
-<a href="/invoice/pay/{{$booking->id}}">Click here</a> to pay Instalment.
-<a href="/assign/customer/{{$booking->id}}">Click here</a> to pay Instalment.
+<a href="/invoice/pay/{{$booking->id}}">Click here</a> to pay Instalment. <br>
+<a href="/assign/customer/{{$booking->id}}">Click here</a> to assign a Customer.
 
 
 <h2>Customer(s) Information</h2>

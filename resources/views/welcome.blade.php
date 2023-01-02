@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 <head>
@@ -8,6 +9,7 @@
 <body>
 
     @include('nav')
+
 
     <div class="text-sky-700 bg-gray-400 w-max">
         <a class="mx-2" href="/customer">Customers</a>
