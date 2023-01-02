@@ -40,15 +40,19 @@
         <label for="instalment_amount">Payable Instalment Amount</label>
         <input type="number" name="instalment_amount" id="payable_instalment_amount" value="{{old('instalment_amount')}}">
         <br>
+
+        
     </div>
-
-
     <div id="development_section" style="display: none;">
-        Development Fee
+        <label for="development_charges">Total Charges</label>
+        <input type="number" name="development_charges" id="development_charges" value="{{ $booking->development_charges}}" readonly>
+
+        <label for="pay_charges">Pay Amount</label>
+        <input type="number" name="pay_charges" id="pay_charges" value="{{ $booking->development_charges}}">
     </div>
 
-    <button type="button" id="btnInvoice">Show Me Installment Invoice</button>
-    <button type="button" id="btnDev">Show Me Development Charges Invoice</button>
+    <button type="button" id="btnInvoice">Show Installment Invoice</button>
+    <button type="button" id="btnDev">Show Development Charges Invoice</button>
     <button type="submit">Submit</button>
 </form>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

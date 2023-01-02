@@ -45,6 +45,13 @@ class InvoiceController extends Controller
         return view('invoices.pay', compact('booking'));
     }
 
+    public function custom()
+    {
+        $bookings = Booking::all();
+
+        return view('invoices.custom', compact('bookings'));
+    }
+
     public function getBookingMonths(Request $request)
     {
         $booking = Booking::find($request->booking_id);
@@ -53,7 +60,7 @@ class InvoiceController extends Controller
         // generate months from january to december
         $months = [];
         for ($i = 1; $i <= 12; $i++) {
-            $months[] = date('F', mktime(0, 0, 0, $i, 10)).' '.$installment_year;
+            $months[] = date('F', mktime(0, 0, 0, $i, 10)) . ' ' . $installment_year;
         }
 
         // check invoices for this booking with year is installment_year
@@ -83,17 +90,36 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->filled('development_charges') && $request->filled('pay_charges')) {
+            $validated = $request->validate([
+                'booking_id' => 'required',
+                'development_charges' => 'required',
+                'pay_charges' => 'required',
+            ]);
+
+            if($validated['development_charges'] < $validated['pay_charges'])
+            return 'Maximum development charges exceed';
+
+            $booking = Booking::find($validated['booking_id']);
+            $invoice = new Invoice();
+            $invoice->user_id = 1;
+            $invoice->booking_id = $validated['booking_id'];
+            $invoice->booking_month = 'Development Charges';
+            $invoice->instalment_amount = $validated['pay_charges'];
+            $invoice->dues = $validated['development_charges'] - $validated['pay_charges'];
+            $invoice->save();
+        }
+
         $validated = $request->validate([
             'installment_month' => 'required',
             'booking_id' => 'required',
             'instalment_amount' => 'required',
         ]);
 
-
         $booking = Booking::find($validated['booking_id']);
-//        $booking->remaining_amount -= $validated['instalment_amount'];
-//        $booking->remaining_duration -= 1;
-//        $booking->save();
+        //        $booking->remaining_amount -= $validated['instalment_amount'];
+        //        $booking->remaining_duration -= 1;
+        //        $booking->save();
 
         // get instalment_per_month
         $instalment_per_month = $booking->instalment_per_month;

@@ -45,6 +45,7 @@ class BookingController extends Controller
     {
 
 
+       
         $validated = $request->validate([
             'price_square_feet' => 'required',
             'down_payment' => 'required',
@@ -55,9 +56,6 @@ class BookingController extends Controller
             'instalment_duration' => 'required',
             'bi-yearly-fee' => 'required',
         ]);
-
-        dd($validated);
-
 
         //$plot = Plot::whereIn('plot_number', $validated['plot_number'])->get();
         $plot = Plot::where('plot_number', $validated['plot_number'])->first();
