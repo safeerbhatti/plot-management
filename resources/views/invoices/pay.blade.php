@@ -1,3 +1,5 @@
+@include('nav')
+
 <form action="/invoice" method="POST">
     @csrf
     <label for="booking-id">Booking ID</label>

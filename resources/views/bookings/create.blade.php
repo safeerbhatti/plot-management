@@ -1,20 +1,32 @@
+@include('nav')
+
+
 <form action="/booking" method="POST">
     @csrf
     <input type="hidden" name="size" value="">
-
-    <label for="khata_number">Khata Number</label>
-    <input type="text" name="khata_number" id="khata_number" value="{{old('khata_number')}}">
-    <br>
-
-    <label for="agreement_number">Agreement Number</label>
-    <input type="text" name="agreement_number" id="agreement_number" value="{{old('agreement_number')}}">
-    <br>
 
     <label for="plot_number">Plot Number</label>
     <input type="text" name="plot_number" id="plot_number" value="{{old('plot_number')}}">
     <br>
 
+    {{-- <label for="plot_number">Plot Number</label>
+    <select name="plot_number[]" id="plot_number" multiple>
+        @foreach($plots as $plot)
+        <option value="{{ $plot->plot_number }}">{{$plot->plot_number}}</option>
+        @endforeach
+      </select> --}}
+      
+
     <div id="details" style="display: none">
+
+        <label for="khata_number">Khata Number</label>
+        <input type="text" name="khata_number" id="khata_number" value="{{old('khata_number')}}">
+        <br>
+    
+        <label for="agreement_number">Agreement Number</label>
+        <input type="text" name="agreement_number" id="agreement_number" value="{{old('agreement_number')}}">
+        <br>
+
         <label for="price_square_feet">Price per square feet</label>
         <input type="number" name="price_square_feet" id="price_square_feet" value="{{old('price_square_feet')}}">
         <br>
@@ -36,9 +48,11 @@
         <input type="number" name="development_charges" id="development_charges" value="{{old('development_charges')}}">
         <br>
 
-        <label for="number_of_dev_charges">Total Number of Development Charges</label>
-        <input type="number" name="number_of_dev_charges" id="number_of_dev_charges" value="{{old('number_of_dev_charges')}}">
+        <label for="bi-yearly-fee">Bi Yearly Fee</label>
+        <input type="number" name="bi-yearly-fee" id="bi-yearly-fee" value="{{old('bi-yearly-fee')}}">
         <br>
+
+
     </div>
 
     <button type="submit">Submit</button>

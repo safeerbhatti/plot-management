@@ -1,3 +1,6 @@
+@include('nav')
+
+
 <h2>Plot Number: {{$booking->plot->plot_number}} </h2>
 
 <hr>

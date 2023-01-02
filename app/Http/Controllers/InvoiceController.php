@@ -129,21 +129,6 @@ class InvoiceController extends Controller
     }
 
 
-    public function amountCheck($value)
-    {
-        // $remaining = $amount;
-        // if ($remaining > $checkAmount) {
-        //     $value = $valueGiven + 1;
-        //     $remaining -= $checkAmount;
-        // }
-        // return response()->json([
-        //     'value' => $value,
-        //     '$remaining' => $remaining,
-        // ], 200);
-
-    }
-
-
     /**
      * Display the specified resource.
      *

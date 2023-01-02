@@ -1,3 +1,6 @@
+@include('nav')
+
+
 <a href="/booking/create">Create new booking</a>
 <a href="/invoice">Invoices</a>
 <a href="/booking/assign">Assign Customers</a>
@@ -9,7 +12,6 @@
 @foreach($bookings as $booking)
     Booking ID : {{$booking->id}}
     <br>
-    Plot Number : {{ $booking->plot->plot_number }}
     <br>
     <a href="/booking/{{$booking->id}}">Click here</a> for more details.
 @endforeach

@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('plot_id');
             $table->decimal('price_square_feet');
             $table->decimal('total_amount');
             $table->decimal('down_payment');
@@ -24,11 +23,10 @@ return new class extends Migration
             $table->decimal('instalment_per_month');
             $table->string('khata_number');
             $table->string('agreement_number');
-            $table->string('number_of_dev_charges');
-            $table->string('paid_number_of_dev_charges');
             $table->decimal('remaining_amount');
             $table->integer('instalment_duration');
             $table->integer('remaining_duration');
+            $table->integer('bi-yearly-fee');
             $table->timestamps();
         });
     }

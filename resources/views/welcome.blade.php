@@ -1,4 +1,4 @@
-<h1>Plot Management</h1>
+@include('nav')
 
 <a href="/customer">Customers</a>
 <a href="/plot">Plots</a>

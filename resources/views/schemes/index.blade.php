@@ -1,10 +1,9 @@
-<a href="/scheme/create">Create new scheme</a>
+@include('nav')
 
 <br>
 <br>
-
 @foreach($schemes as $scheme)
     Scheme Name: {{ $scheme->name }}
-    <a href="/scheme/{{$scheme->id}}">click here</a> to view all plots on this scheme
+    <a href="/scheme/{{$scheme->id}}">click here</a> to view scheme details.
     <br>
 @endforeach

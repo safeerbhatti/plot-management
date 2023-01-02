@@ -1,3 +1,6 @@
+@include('nav')
+
+
 <form action="/booking/assign" method="POST">
     @csrf
 

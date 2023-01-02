@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('plots', function (Blueprint $table) {
+        Schema::create('history', function (Blueprint $table) {
             $table->id();
-            $table->integer('scheme_id');
-            $table->integer('booking_id')->nullable();
-            $table->string('plot_number')->unique();
-            $table->string('class');
-            $table->integer('plot_area_in_square_feet');
             $table->timestamps();
         });
     }
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plots');
+        Schema::dropIfExists('history');
     }
 };

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Scheme;
 use Illuminate\Http\Request;
 
-class SchemeController extends Controller
+class AccountsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +13,7 @@ class SchemeController extends Controller
      */
     public function index()
     {
-        $schemes = Scheme::all();
-        return view('schemes.index', compact('schemes'));
+        //
     }
 
     /**
@@ -25,7 +23,7 @@ class SchemeController extends Controller
      */
     public function create()
     {
-        return view('schemes.create');
+        //
     }
 
     /**
@@ -36,12 +34,7 @@ class SchemeController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-        ]);
-
-        Scheme::create($validated);
-        return redirect('/scheme');
+        //
     }
 
     /**
@@ -52,9 +45,7 @@ class SchemeController extends Controller
      */
     public function show($id)
     {
-        $scheme = Scheme::find($id);
-
-        return view('schemes.show', compact('scheme'));
+        //
     }
 
     /**

@@ -1,3 +1,6 @@
+@include('nav')
+
+
 <form action="/customer" method="POST">
     @csrf
     <label for="name">Name</label>

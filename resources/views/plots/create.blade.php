@@ -1,5 +1,12 @@
+
+@include('nav')
+
 <form action="/plot" method="POST">
     @csrf
+    <label for="class">Class</label>
+    <input type="text" name="class" id="class" value="{{old('class')}}">
+
+
     <label for="plot_number">Plot Number</label>
     <input type="text" name="plot_number" id="plot_number" value="{{old('plot_number')}}">
 

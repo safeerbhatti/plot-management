@@ -1,8 +1,12 @@
+@include('nav')
+
+
 <h2>Booking Details</h2>
 Booking ID: {{ $booking->id }}.
-Plot ID: {{ $booking->plot->id}}.
-Plot Number: {{ $booking->plot->plot_number }}.
-Plot Area in Square feet: {{ $booking->plot->plot_area_in_square_feet }}.
+
+Total Plots: Test
+Plot Numbers: Test
+Total Area in Square feet: Test.
 
 <h4>Pricing</h4>
 Price/Square feet: Rupees {{ $booking->price_square_feet }}/- <br>

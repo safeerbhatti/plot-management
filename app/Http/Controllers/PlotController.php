@@ -47,18 +47,34 @@ class PlotController extends Controller
             'plot_number' => 'required',
             'plot_area_in_square_feet' => 'required',
             'scheme' => 'required',
+            'class' => 'required',
         ]);
 
         $scheme = Scheme::where('name', $validated['scheme'])->first();
 
-        Plot::create([
-            'plot_number' => $validated['plot_number'],
-            'plot_area_in_square_feet' => $validated['plot_area_in_square_feet'],
-            'scheme_id' => $scheme->id,
+        if (str_contains($validated['plot_number'], '-')) {
+            $plot_numbers = explode("-", $validated['plot_number']);
+            $numbers = range($plot_numbers[0], $plot_numbers[1]);
+            foreach ($numbers as $plot) {
+                Plot::firstOrCreate([
+                    'plot_number' => $plot,
+                    'plot_area_in_square_feet' => $validated['plot_area_in_square_feet'],
+                    'scheme_id' => $scheme->id,
+                    'class' => $validated['class'],
 
-        ]);
+                ]);
+            }
+        } else {
+            Plot::firstOrCreate([
+                'plot_number' => $validated['plot_number'],
+                'plot_area_in_square_feet' => $validated['plot_area_in_square_feet'],
+                'scheme_id' => $scheme->id,
+                'class' => $validated['class'],
 
-        return 'Plot Created';
+            ]);
+        }
+
+        return redirect('/plot');
     }
 
     /**

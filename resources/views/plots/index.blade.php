@@ -1,3 +1,6 @@
+@include('nav')
+
+
 <a href="/plot/create">Crete new plot</a>
 <br>
 <br>
