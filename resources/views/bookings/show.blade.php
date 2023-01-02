@@ -27,6 +27,8 @@ Remaining Instalments Duration: {{ $booking->remaining_duration }} months. <br>
 <br>
 <a href="/invoices/{{$booking->id}}">Click here</a> to check paid invoices. <br>
 <a href="/invoice/pay/{{$booking->id}}">Click here</a> to pay Instalment.
+<a href="/assign/customer/{{$booking->id}}">Click here</a> to pay Instalment.
+
 
 <h2>Customer(s) Information</h2>
 @foreach($customers as $customer)

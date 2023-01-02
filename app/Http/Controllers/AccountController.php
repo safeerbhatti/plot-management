@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use Illuminate\Http\Request;
 
-class AccountsController extends Controller
+class AccountController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,8 @@ class AccountsController extends Controller
      */
     public function index()
     {
-        //
+        $accounts = Account::all();
+        return view('accounts.index', compact('accounts'));
     }
 
     /**
@@ -23,7 +25,7 @@ class AccountsController extends Controller
      */
     public function create()
     {
-        //
+        return view('accounts.create');
     }
 
     /**
@@ -34,7 +36,14 @@ class AccountsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'expense_type' => 'required',
+            'expense_amount' => 'required',
+        ]);
+
+        $acounts = Account::create($validated);
+
+        return redirect('/account');
     }
 
     /**

@@ -57,6 +57,26 @@
 
     <button type="submit">Submit</button>
 </form>
+
+<div class="parent" style="    width: 350px;
+height: 200px;
+border: 1px solid black;
+margin: auto;
+display: grid;
+grid-template-columns: 250px 100px;
+">
+    <div class="child child1" style="border: 1px solid black;" >Price per square feet</div>
+    <div id="square_price" class="child child1" style="border: 1px solid black;" ></div>
+    <div class="child child1" style="border: 1px solid black;" >Down Payment</div>
+    <div class="child child1" style="border: 1px solid black;" id="down_payment2" ></div>
+    <div class="child child1" style="border: 1px solid black;" >Monthly Instalment</div>
+    <div class="child child1" style="border: 1px solid black;" id="monthly_instalment" ></div>
+    <div class="child child1" style="border: 1px solid black;" >Development Charges</div>
+    <div class="child child1" style="border: 1px solid black;" id="dev_charges" ></div>
+    <div class="child child1" style="border: 1px solid black;" >Bi Yearly Fee</div>
+    <div class="child child1" style="border: 1px solid black;" id="bi_yearly_fee" ></div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
@@ -74,6 +94,26 @@
             });
         });
 
+        $('#price_square_feet').on('change', function(){
+            var square_price = $('#price_square_feet').val();
+            $('#square_price').text(square_price);
+        });
+
+        $('#down_payment').on('change', function(){
+            var square_price = $('#down_payment').val();
+            $('#down_payment2').text(square_price);
+        });
+
+        $('#development_charges').on('change', function(){
+            var square_price = $('#development_charges').val();
+            $('#dev_charges').text(square_price);
+        });
+
+        $('#bi-yearly-fee').on('change', function(){
+            var square_price = $('#bi-yearly-fee').val();
+            $('#bi_yearly_fee').text(square_price);
+        });
+        
         $('#calculate').on('click', function(){
             // calculate total size and price from price_square_feet
             var price_square_feet = $('#price_square_feet').val();
@@ -90,7 +130,8 @@
 
             // put in into instalment_fee
             $('#instalment_fee').val(monthly_instalment);
-
+            $('#monthly_instalment').text(monthly_instalment);
+            
         })
     });
 </script>
