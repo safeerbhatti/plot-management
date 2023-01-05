@@ -87,7 +87,7 @@ class PlotController extends Controller
     {
         // check if request ajax
         if (request()->ajax()) {
-            $plot = Plot::find($id);
+            $plot = Plot::where('plot_number',$id);
             return response()->json($plot);
         }
     }
