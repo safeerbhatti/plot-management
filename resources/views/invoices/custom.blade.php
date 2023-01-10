@@ -1,6 +1,9 @@
-@include('nav')
+@extends('layouts.app')
+@section('content')
 
-<h2>Select Booking to pay installment</h2>
+
+<div class="container-fluid">
+    <h2>Select Booking to pay installment</h2>
 
 
 <select id="invoices" name="pay_invoices">
@@ -10,6 +13,8 @@
     @endforeach
 
 </select>
+</div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -19,6 +24,8 @@
         }        
     };
 </script>
+
+@endsection
    
 
 

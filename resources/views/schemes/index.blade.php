@@ -1,14 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.app') @section('content')
 
-@section('content')
-<br>
-<br>
-@foreach($schemes as $scheme)
-    Scheme Name: {{ $scheme->name }}
+<div class="container-fluid">
+    @foreach($schemes as $scheme) Scheme Name: {{ $scheme->name }}
     <a href="/scheme/{{$scheme->id}}">click here</a> to view scheme details.
-    <br>
-@endforeach
+    <br />
+    @endforeach
+</div>
+
 @endsection
-
-
-

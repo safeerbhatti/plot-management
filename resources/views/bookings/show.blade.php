@@ -1,7 +1,7 @@
-@include('nav')
+@extends('layouts.app') @section('content')
 
-
-<h2>Booking Details</h2>
+<div class="container-fluid">
+    <h2>Booking Details</h2>
 Booking ID: {{ $booking->id }}.
 
 Total Plots: Test
@@ -37,3 +37,6 @@ Remaining Instalments Duration: {{ $booking->remaining_duration }} months. <br>
     Customer CNIC: {{$customer->cnic}}
     Customer Address: {{$customer->address}}
 @endforeach
+</div>
+
+@endsection

@@ -1,12 +1,17 @@
-@extends('layouts.app') @section('content') List of all plots in this scheme:
-<br />
-<br />
+@extends('layouts.app') @section('content')
 
-<h2>{{ $scheme->name }}</h2>
+<div class="container-fluid">
+    <p>List of all plots in this scheme:</p>
 
-<a href="/plot/create">Create new plot</a>
+    <h2>{{ $scheme->name }}</h2>
 
-@foreach($scheme->plots as $plot) Plot Number: {{ $plot->plot_number }} <br />
-Plot Area: {{ $plot->plot_area_in_square_feet }} <br />
-<br />
-@endforeach @endsection
+    <a href="/plot/create">Create new plot</a>
+
+    @foreach($scheme->plots as $plot) Plot Number: {{ $plot->plot_number }}
+    <br />
+    Plot Area: {{ $plot->plot_area_in_square_feet }} <br />
+    <br />
+    @endforeach
+</div>
+
+@endsection

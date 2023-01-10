@@ -1,5 +1,5 @@
-@include('nav')
-
+@extends('layouts.app')
+@section('content')
 
 <form action="/customer" method="POST">
     @csrf
@@ -35,3 +35,6 @@
 
     <button type="submit">Submit</button>
 </form>
+
+
+@endsection

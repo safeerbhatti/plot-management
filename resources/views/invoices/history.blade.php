@@ -1,7 +1,8 @@
-@include('nav')
+@extends('layouts.app')
+@section('content')
 
-
-<h2>Plot Number: {{$booking->plot->plot_number}} </h2>
+<div class="container-fluid">
+    <h2>Plot Number: {{$booking->plot->plot_number}} </h2>
 
 <hr>
 
@@ -17,3 +18,6 @@
 @endforeach
 
 Total Dues Remaining: Rupees {{$dues->dues_remaining}} /-
+</div>
+
+@endsection

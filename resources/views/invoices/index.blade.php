@@ -1,4 +1,10 @@
-@include('nav')
+@extends('layouts.app')
+@section('content')
 
 
-<a href="/invoice/create">Create new invoice</a>
+<div class="container-fluid">
+    <a href="/invoice/create">Create new invoice</a>
+
+</div>
+
+@endsection

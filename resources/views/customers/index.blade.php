@@ -1,7 +1,8 @@
-@include('nav')
+@extends('layouts.app')
+@section('content')
 
-
-<h1>Customers</h1>
+<div class="container-fluid">
+    <h1>Customers</h1>
 
 @foreach ($customers as $user)
     <h3>{{ $user->name }}</h3>
@@ -9,5 +10,6 @@
     <p>Address {{ $user->address }}</p>
     <p>Cnic {{ $user->cnic }}</p>
 @endforeach
+</div>
 
-<a href="/customer/create">Create New</a>
+@endsection
