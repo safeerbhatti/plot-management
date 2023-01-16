@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking/customers', [BookingController::class, 'viewCustomers']);
     Route::post('/booking/assign', [BookingController::class, 'saveCustomer']);
     Route::get('/assign/customer/{id}', [BookingController::class, 'assignCustomer']);
+    Route::get('/customer/assign-new', [BookingController::class, 'assignNewCustomer']);
     Route::get('/invoices/{id}', [InvoiceController::class, 'list']);
     Route::get('/invoice/pay/{booking}', [InvoiceController::class, 'pay']);
     Route::get('/invoice/custom', [InvoiceController::class, 'custom']);

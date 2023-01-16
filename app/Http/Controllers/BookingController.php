@@ -151,6 +151,13 @@ class BookingController extends Controller
         return view('bookings.assign', compact('booking', 'customers'));
     }
 
+    public function assignNewCustomer()
+    {
+        $bookings = Booking::pluck('id');
+        $customers = Customer::pluck('id');
+        return view('customers.assign', compact('bookings', 'customers'));
+    }
+
     public function saveCustomer(Request $request)
     {
 

@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
     <a href="/invoice">Invoices</a>
-    <a href="/bookings/new-assign">Assign Customers</a>
+    <a href="/customer/assign-new">Assign Customers</a>
 
     <br />
     <br />

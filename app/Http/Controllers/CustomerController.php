@@ -44,7 +44,8 @@ class CustomerController extends Controller
         ]);
 
         Customer::create($validated);
-        return 'Customer Created';
+        
+        return redirect('/customer');
     }
 
     /**

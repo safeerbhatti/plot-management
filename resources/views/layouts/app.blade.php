@@ -83,7 +83,7 @@
                         <h6 class="collapse-header">Options:</h6>
                         <a class="collapse-item" href="/booking">All Bookings</a>
                         <a class="collapse-item" href="/booking/create">New Booking</a>
-                        <a class="collapse-item" href="/bookings/new-assign">Assign Customer</a>
+                        <a class="collapse-item" href="/customer/assign-new">Assign Customer</a>
                     </div>
                 </div>
             </li>
