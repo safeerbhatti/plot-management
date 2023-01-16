@@ -81,8 +81,9 @@
                 <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Options:</h6>
+                        <a class="collapse-item" href="/booking">All Bookings</a>
                         <a class="collapse-item" href="/booking/create">New Booking</a>
-                        <a class="collapse-item" href="/booking/assign">Assign Customer</a>
+                        <a class="collapse-item" href="/bookings/new-assign">Assign Customer</a>
                     </div>
                 </div>
             </li>
