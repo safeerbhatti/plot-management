@@ -18,6 +18,14 @@ class SchemeController extends Controller
         return view('schemes.index', compact('schemes'));
     }
 
+    public function list($scheme)
+    {
+        $scheme = Scheme::where('name', $scheme)->first();
+        $plots = $scheme->plots;
+
+        return view('plots.scheme', compact('plots'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
