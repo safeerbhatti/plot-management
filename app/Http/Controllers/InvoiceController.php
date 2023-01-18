@@ -27,10 +27,12 @@ class InvoiceController extends Controller
 
     public function list($id)
     {
-        $booking = Booking::find($id);
+        //booking scheme where slug from url
 
+        $booking = Booking::find($id);
         $invoices = Invoice::where('booking_id', $booking->id)->get();
         $dues = Due::where('booking_id', $booking->id)->first();
+
         return view('invoices.history', compact('invoices', 'dues', 'booking'));
     }
 
@@ -157,9 +159,96 @@ class InvoiceController extends Controller
             }
         }
 
-        return 'Invoice created successfully';
+        return redirect('/invoice');
     }
 
+
+    public function payBiYearly($id)
+    {
+        $booking = Booking::find($id);
+        return view('invoices.bi-yearly', compact('booking'));
+    }
+
+    public function storeBiYearly(Request $request)
+    {
+        // booking month = biyearlyfee
+        // installment amount = biyearly fee amount
+
+        $validated = $request->validate([
+            'booking_id' => 'required',
+            'installment_amount' => 'required',
+            'payable_amount' => 'required',
+        ]);
+
+        $booking = Booking::find($validated['booking_id']);
+
+        if($validated['installment_amount'] > $validated['payable_amount'])
+        {
+            return 'Amount can not be greater than payable amount';
+        }
+
+        $dues = $validated['payable_amount'] - $validated['installment_amount'];
+
+        Invoice::create([
+            'user_id' => auth()->user()->id,
+            'booking_id' => $validated['booking_id'],
+            'booking_month' => 'bi_fee',
+            'instalment_amount' => $validated['installment_amount'],
+            'dues' => $dues,
+        ]);
+        $booking->bi_fee_status = 'paid';
+        if($dues > 0)
+        {
+            $booking->bi_fee_status = 'half';
+        }
+
+        $booking->save();
+        return redirect('/booking/'.$validated['booking_id']);
+
+    }
+
+    public function payDevCharges($id)
+    {
+        $booking = Booking::find($id);
+        return view('invoices.dev-charges', compact('booking'));
+    }
+
+    public function storeDevCharges(Request $request)
+    {
+        
+        $validated = $request->validate([
+            'booking_id' => 'required',
+            'installment_amount' => 'required',
+            'payable_amount' => 'required',
+        ]);
+
+        $booking = Booking::find($validated['booking_id']);
+
+        if($validated['installment_amount'] > $validated['payable_amount'])
+        {
+            return 'Amount can not be greater than payable amount';
+        }
+
+        $dues = $validated['payable_amount'] - $validated['installment_amount'];
+
+        Invoice::create([
+            'user_id' => auth()->user()->id,
+            'booking_id' => $validated['booking_id'],
+            'booking_month' => 'Development Charges',
+            'instalment_amount' => $validated['installment_amount'],
+            'dues' => $dues,
+        ]);
+
+        $booking->dev_charges_status = 'paid';
+        if($dues > 0)
+        {
+            $booking->dev_charges_status = 'half';
+        }
+
+        $booking->save();
+
+        return redirect('/booking/'.$validated['booking_id']);
+    }
 
     /**
      * Display the specified resource.

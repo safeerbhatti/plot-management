@@ -2,16 +2,16 @@
 <div class="container-fluid">
     <form action="/account" method="POST">
         @csrf
-        <label for="expense_type">Expense Type</label>
-        <input
-            type="text"
-            name="expense_type"
-            id="expense_type"
-            value="{{ old('expense_type') }}"
-        />
-    
+
+        <label for="expense_type">Select Expense Type</label>
+        <select for="expense_type" name="expense_type" id="expense_type">
+            @foreach($expenses as $expense)
+            <option value="{{ $expense->type }}">{{ $expense->type }}</option>
+            @endforeach
+        </select>
+
         @error('expense_type')
-        <p>Can not edit if empty.</p>
+        {{ $message }}
         @enderror
     
         <label for="expense_amount">Expense Amount</label>
@@ -23,7 +23,7 @@
         />
     
         @error('expense_amount')
-        <p>Can not edit if empty.</p>
+        {{ $message }}
         @enderror
     
         <button type="submit">Submit</button>

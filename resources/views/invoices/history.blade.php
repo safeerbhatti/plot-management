@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <h2>Plot Number: {{$booking->plot->plot_number}} </h2>
+    <h2>Booking ID: {{$booking->id}} </h2>
 
 <hr>
 

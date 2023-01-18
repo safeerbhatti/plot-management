@@ -124,6 +124,7 @@
                         <h6 class="collapse-header">Options:</h6>
                         <a class="collapse-item" href="/account/create">New Record</a>
                         <a class="collapse-item" href="/account">View Records</a>
+                        <a class="collapse-item" href="/expense">New Expense</a>
                     </div>
                 </div>
             </li>

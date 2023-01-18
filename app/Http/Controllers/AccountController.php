@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\ExpenseType;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -25,7 +26,8 @@ class AccountController extends Controller
      */
     public function create()
     {
-        return view('accounts.create');
+        $expenses = ExpenseType::all();
+        return view('accounts.create', compact('expenses'));
     }
 
     /**
@@ -89,5 +91,21 @@ class AccountController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function createExpense()
+    {
+        return view('accounts.expense');
+    }
+
+    public function storeExpense(Request $request)
+    {
+        $validated = $request->validate([
+            'type' => 'required',
+            'desc' => 'required',
+        ]);
+
+        $expense = ExpenseType::create($validated);
+        return redirect('/account/create');
     }
 }

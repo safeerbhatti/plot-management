@@ -46,6 +46,7 @@ class SchemeController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
+            'slug' => 'required|unique:schemes,slug',
         ]);
 
         Scheme::create($validated);

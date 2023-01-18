@@ -1,12 +1,9 @@
 @extends('layouts.app') @section('content')
 
 <div class="container-fluid">
-    <a href="/invoice">Invoices</a>
     <a href="/customer/assign-new">Assign Customers</a>
-
     <br />
     <br />
-
     <h2>Bookings</h2>
 
     @foreach($bookings as $booking) Booking ID : {{$booking->id}}. 
