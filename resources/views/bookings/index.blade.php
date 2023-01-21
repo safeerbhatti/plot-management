@@ -1,13 +1,10 @@
-@extends('layouts.app') @section('content')
+@extends('layouts.app', ['slug' => $slug]) @section('content')
 
 <div class="container-fluid">
-    <a href="/customer/assign-new">Assign Customers</a>
-    <br />
     <br />
     <h2>Bookings</h2>
-
     @foreach($bookings as $booking) Booking ID : {{$booking->id}}. 
-    <a href="/booking/{{$booking->id}}">Click here</a> for more details. <br>
+    <a href="/{{$slug}}/booking/{{$booking->id}}">Click here</a> for more details. <br>
     @endforeach
 </div>
 

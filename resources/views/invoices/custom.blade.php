@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['slug' => $slug])
 @section('content')
 
 
@@ -9,7 +9,7 @@
 <select id="invoices" name="pay_invoices">
     <option value="none">Select</option>
     @foreach($bookings as $booking)
-        <option value="/invoice/pay/{{$booking->id}}">{{$booking->id}}</option>
+        <option value="/{{$slug}}/invoice/pay/{{$booking->id}}">{{$booking->id}}</option>
     @endforeach
 
 </select>

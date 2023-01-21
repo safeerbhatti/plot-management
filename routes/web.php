@@ -10,31 +10,24 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CustomerController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/home', function () {
-    dd(Auth::user());
-});
 
 Route::get('/dashboard', function () {
     return view('home');
 });
 
-
-
+Route::get('/', [SchemeController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
 
+    Route::post('/{scheme}/invoice/test', [InvoiceController::class, 'store']);
     Route::get('/booking/customers', [BookingController::class, 'viewCustomers']);
     Route::post('/booking/assign', [BookingController::class, 'saveCustomer']);
     Route::get('/assign/customer/{id}', [BookingController::class, 'assignCustomer']);
-    Route::get('/customer/assign-new', [BookingController::class, 'assignNewCustomer']);
+    Route::get('/{scheme}/customer/assign-new', [BookingController::class, 'assignNewCustomer']);
     Route::get('/plots', [SchemeController::class, 'list']);
     Route::get('/invoices/{id}', [InvoiceController::class, 'list']);
-    Route::get('/invoice/pay/{booking}', [InvoiceController::class, 'pay']);
-    Route::get('/invoice/custom', [InvoiceController::class, 'custom']);
+    Route::get('/{scheme}/invoice/pay/{booking}', [InvoiceController::class, 'pay']);
+    Route::get('/{scheme}/invoice/custom', [InvoiceController::class, 'custom']);
     Route::post('/invoice/getBookingMonths', [InvoiceController::class, 'getBookingMonths']);
     Route::post('/expense', [AccountController::class, 'storeExpense']);
     Route::get('/expense', [AccountController::class, 'createExpense']);
@@ -44,8 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dev-charges/pay/{id}', [InvoiceController::class, 'payDevCharges']);
     
     Route::resource('customer', CustomerController::class);
-    Route::resource('plot', PlotController::class);
-    Route::resource('booking', BookingController::class);
+    Route::resource('{scheme}/plot', PlotController::class);
+    Route::resource('{scheme}/booking', BookingController::class);
     Route::resource('scheme', SchemeController::class);
     Route::resource('invoice', InvoiceController::class);
     Route::resource('account', AccountController::class);
@@ -57,4 +50,4 @@ Route::middleware('auth')->group(function () {
  
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/{slug}', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

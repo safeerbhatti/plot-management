@@ -1,12 +1,12 @@
-@extends('layouts.app') @section('content')
+@extends('layouts.app', ['slug' => $slug]) @section('content')
 
 <div class="container-fluid">
     <h2>Booking Details</h2>
 Booking ID: {{ $booking->id }}.
 
-Total Plots: Test
-Plot Numbers: Test
-Total Area in Square feet: Test.
+Class: {{ $booking->plot->class}} <br>
+Number: {{ $booking->plot->plot_number}} <br>
+Total Area in Square feet: {{ $booking->plot->plot_area_in_square_feet}}
 
 <h4>Pricing</h4>
 Price/Square feet: Rupees {{ $booking->price_square_feet }}/- <br>

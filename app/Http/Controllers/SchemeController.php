@@ -15,7 +15,10 @@ class SchemeController extends Controller
     public function index()
     {
         $schemes = Scheme::all();
-        return view('schemes.index', compact('schemes'));
+        $slug = $schemes[0]->slug;
+
+
+        return view('schemes.index', compact('schemes', 'slug'));
     }
 
     public function list($scheme)
@@ -62,8 +65,8 @@ class SchemeController extends Controller
     public function show($id)
     {
         $scheme = Scheme::find($id);
-
-        return view('schemes.show', compact('scheme'));
+        $slug = $scheme->slug;
+        return view('schemes.show', compact('scheme', 'slug'));
     }
 
     /**

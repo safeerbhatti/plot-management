@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Scheme;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -21,8 +22,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index($scheme)
     {
-        return view('home');
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = "none";
+        if($scheme)
+        {
+            $slug = $scheme->slug;
+        }
+
+        return view('home', compact('slug'));
     }
 }

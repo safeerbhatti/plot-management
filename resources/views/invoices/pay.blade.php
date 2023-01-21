@@ -1,7 +1,7 @@
-@extends('layouts.app') @section('content')
+@extends('layouts.app', ['slug' => $slug]) @section('content')
 
 <div class="container-fluid">
-    <form action="/invoice" method="POST">
+    <form action="/{{$slug}}/invoice/test" method="POST">
         @csrf
         <label for="booking-id">Booking ID</label>
         <input

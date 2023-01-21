@@ -13,12 +13,16 @@ class PlotController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($scheme)
     {
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
 
-        $plots = Plot::all();
+        $slug = $scheme->slug;
+        $plots = Plot::where('scheme_id', $scheme->id)
+            ->orderBy('class', 'ASC')->orderBy('plot_number')
+            ->get();
 
-        return view('plots.index', compact('plots'));
+        return view('plots.index', compact('plots', 'slug'));
     }
 
     /**
@@ -26,12 +30,12 @@ class PlotController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($scheme)
     {
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+        $slug = $scheme->slug;
 
-        $schemes = Scheme::pluck('name');
-
-        return view('plots.create', compact('schemes'));
+        return view('plots.create', compact('slug'));
     }
 
     /**
@@ -50,31 +54,39 @@ class PlotController extends Controller
             'class' => 'required',
         ]);
 
-        $scheme = Scheme::where('name', $validated['scheme'])->first();
+        $scheme = Scheme::where('slug', $validated['scheme'])->first();
 
         if (str_contains($validated['plot_number'], '-')) {
             $plot_numbers = explode("-", $validated['plot_number']);
             $numbers = range($plot_numbers[0], $plot_numbers[1]);
             foreach ($numbers as $plot) {
-                Plot::firstOrCreate([
-                    'plot_number' => $plot,
-                    'plot_area_in_square_feet' => $validated['plot_area_in_square_feet'],
+                Plot::firstOrCreate(
+                    [
+                        'plot_number' => $plot,
+                        'scheme_id' => $scheme->id,
+                        'class' => $validated['class'],
+
+                    ],
+                    [
+                        'plot_area_in_square_feet' => $validated['plot_area_in_square_feet'],
+                    ]
+                );
+            }
+        } else {
+            Plot::firstOrCreate(
+                [
+                    'plot_number' => $validated['plot_number'],
                     'scheme_id' => $scheme->id,
                     'class' => $validated['class'],
 
-                ]);
-            }
-        } else {
-            Plot::firstOrCreate([
-                'plot_number' => $validated['plot_number'],
-                'plot_area_in_square_feet' => $validated['plot_area_in_square_feet'],
-                'scheme_id' => $scheme->id,
-                'class' => $validated['class'],
-
-            ]);
+                ],
+                [
+                    'plot_area_in_square_feet' => $validated['plot_area_in_square_feet'],
+                ]
+            );
         }
 
-        return redirect('/plot');
+        return redirect('/' . $validated['scheme'] . '/plot');
     }
 
     /**
@@ -83,11 +95,14 @@ class PlotController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($scheme, $id)
     {
         // check if request ajax
         if (request()->ajax()) {
-            $plot = Plot::where('plot_number',$id)->first();
+
+            $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+            $data = explode("@", $id);
+            $plot = Plot::where('scheme_id', $scheme->id)->where('class', $data[0])->where('plot_number', $data[1])->first();
             return response()->json($plot);
         }
     }

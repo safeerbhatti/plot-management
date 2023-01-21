@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BookedCustomer;
 use App\Models\Due;
 use App\Models\Plot;
+use App\Models\Scheme;
 use App\Models\Booking;
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Models\BookedCustomer;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 
 class BookingController extends Controller
@@ -19,11 +20,13 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($scheme)
     {
-        $bookings = Booking::all();
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
+        $bookings = Booking::where('scheme_id', $scheme->id)->get();
 
-        return view('bookings.index', compact('bookings'));
+        return view('bookings.index', compact('bookings', 'slug'));
     }
 
     /**
@@ -31,12 +34,14 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($scheme)
     {
         // get all plots
         $plots = Plot::all();
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
 
-        return view('bookings.create', compact('plots'));
+        return view('bookings.create', compact('plots', 'slug'));
     }
 
     /**
@@ -45,7 +50,7 @@ class BookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $scheme)
     {
 
         $validated = $request->validate([
@@ -60,6 +65,9 @@ class BookingController extends Controller
             'agreement_file' => 'required|mimes:jpeg,png,jpg|max:2048',
             'biYearlyRadio' => 'required',
         ]);
+
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
 
         $file = $request->file('agreement_file');
 
@@ -110,7 +118,8 @@ class BookingController extends Controller
             'remaining_duration' => $duration,
             'bi_yearly_fee' => $biFee,
             'agreement_file' => $path,
-            'bi_yearly_type' => $validated['biYearlyRadio']
+            'bi_yearly_type' => $validated['biYearlyRadio'],
+            'scheme_id' => $scheme->id,
         ]);
         $plot->booking_id = $booking->id;
         $plot->save();
@@ -119,21 +128,24 @@ class BookingController extends Controller
             'booking_id' => $booking->id,
         ]);
 
-        return redirect('/booking');
+        return redirect('/' . $slug . '/booking');
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource.d
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($scheme, $id)
     {
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
         $bookedCustomers = BookedCustomer::where('booking_id', $id)->pluck('customer_id');
         $customers = Customer::findMany($bookedCustomers);
         $booking = Booking::find($id);
-        return view('bookings.show', compact('booking', 'customers'));
+
+        return view('bookings.show', compact('booking', 'customers', 'slug'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -169,18 +181,29 @@ class BookingController extends Controller
         //
     }
 
-    public function assignCustomer($id)
+    public function assignCustomer($scheme, $id)
     {
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
         $booking = $id;
         $customers = Customer::pluck('id');
-        return view('bookings.assign', compact('booking', 'customers'));
+        return view('bookings.assign', compact('booking', 'customers', 'slug'));
     }
 
-    public function assignNewCustomer()
+    public function assignNewCustomer($scheme)
     {
-        $bookings = Booking::pluck('id');
+
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
+        $bookings = Booking::where('scheme_id', $scheme->id)->pluck('id');
+
+        if(!$bookings)
+        {
+            $bookings = false;
+        }
+
         $customers = Customer::pluck('id');
-        return view('customers.assign', compact('bookings', 'customers'));
+        return view('customers.assign', compact('bookings', 'customers', 'slug'));
     }
 
     public function saveCustomer(Request $request)

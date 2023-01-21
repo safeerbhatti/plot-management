@@ -1,9 +1,10 @@
-@extends('layouts.app') @section('content')
+@extends('layouts.app',  ['slug' => $slug]) @section('content')
 
 <div class="container-fluid">
     <form action="/booking" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="size" value="" />
+        <input type="hidden" name="slug" id="slug" class="slug" value="{{$slug}}" />
 
         <label for="class">Class</label>
         <input
@@ -235,15 +236,27 @@
 
         $("#class").on("change", function () {
             $("#plot_number").on("change", function () {
-            var plot_number = $(this).val();
+                var plot_number = $("#class").val()+'@'+$("#plot_number").val();
+                var slug = '/' + $("#slug").val();
             $.ajax({
-                url: "/plot/" + plot_number,
+                url: slug + "/plot/" + plot_number,
                 type: "GET",
                 success: function (data) {
-                    $('input[name="size"]').val(data.plot_area_in_square_feet);
 
-                    // show the details div
-                    $("#details").show();
+                    if(data.booking_id === 0 || data.booking_id === null)
+                    {
+                        $('input[name="size"]').val(data.plot_area_in_square_feet);
+                        $("#details").show();
+                    }
+                    else if(jQuery.isEmptyObject(data)
+)
+                    {
+                        alert('Plot number does not exist');
+                    }
+                    else
+                    {
+                        alert('Booking already exists');
+                    }
                 },
             });
         });
@@ -251,15 +264,21 @@
 
         $("#plot_number").on("change", function () {
             $("#class").on("change", function () {
-            var plot_number = $("#plot_number").val();
+            var plot_number = $("#class").val()+'@'+$("#plot_number").val();
             $.ajax({
                 url: "/plot/" + plot_number,
                 type: "GET",
                 success: function (data) {
-                    $('input[name="size"]').val(data.plot_area_in_square_feet);
 
-                    // show the details div
-                    $("#details").show();
+                    if(data.booking_id === 0 || data.booking_id === null)
+                    {
+                        $('input[name="size"]').val(data.plot_area_in_square_feet);
+                        $("#details").show();
+                    }
+                    else
+                    {
+                        alert('A booking already exists');
+                    }
                 },
             });
         });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Due;
+use App\Models\Scheme;
 use App\Models\Booking;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
@@ -41,23 +42,25 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function pay($booking)
+    public function pay($scheme, $booking)
     {
 
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
         $booking = Booking::find($booking);
 
         // find booking starting date
         $start_date = $booking->created_at;
 
-
-        return view('invoices.pay', compact('booking'));
+        return view('invoices.pay', compact('booking', 'slug'));
     }
 
-    public function custom()
+    public function custom($scheme)
     {
-        $bookings = Booking::all();
-
-        return view('invoices.custom', compact('bookings'));
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
+        $bookings = Booking::where('scheme_id', $scheme->id)->get();
+        return view('invoices.custom', compact('bookings', 'slug'));
     }
 
     public function getBookingMonths(Request $request)
@@ -159,7 +162,10 @@ class InvoiceController extends Controller
             }
         }
 
-        return redirect('/invoice');
+        $scheme = Scheme::find($booking->scheme_id);
+        $slug = $scheme->slug;
+
+        return redirect('/'.$slug.'/booking');
     }
 
 

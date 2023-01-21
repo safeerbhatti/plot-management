@@ -25,7 +25,7 @@
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/{{$slug ?? "none"}}">
                 <div class="sidebar-brand-text mx-3">Schemes Management</div>
             </a>
 
@@ -68,7 +68,8 @@
                 <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Options:</h6>
-                        <a class="collapse-item" href="/plot/create">New Plot</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/plot/create">New Plot</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/plot">View All Plots</a>
                     </div>
                 </div>
             </li>
@@ -81,9 +82,9 @@
                 <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Options:</h6>
-                        <a class="collapse-item" href="/booking">All Bookings</a>
-                        <a class="collapse-item" href="/booking/create">New Booking</a>
-                        <a class="collapse-item" href="/customer/assign-new">Assign Customer</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/booking">All Bookings</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/booking/create">New Booking</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/customer/assign-new">Assign Customer</a>
                     </div>
                 </div>
             </li>
@@ -109,7 +110,7 @@
                 <div id="collapse6" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Options:</h6>
-                        <a class="collapse-item" href="/invoice/custom">New Invoice</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/invoice/custom">New Invoice</a>
                     </div>
                 </div>
             </li>

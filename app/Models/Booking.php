@@ -12,9 +12,9 @@ class Booking extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function plots()
+    public function plot()
     {
-        return $this->hasMany(Plot::class);
+        return $this->belongsTo(Plot::class);
     }
 
     public function scheme()

@@ -2,9 +2,9 @@
 
 <div class="container-fluid">
     @foreach($schemes as $scheme) Scheme Name: {{ $scheme->name }}
-    <a href="/scheme/{{$scheme->id}}">click here</a> to view scheme details.
+    <a href="/{{$scheme->slug ?? "none" }}/booking">click here</a> to view scheme details.
     <br />
     @endforeach
-</div>
+</div>/
 
 @endsection
