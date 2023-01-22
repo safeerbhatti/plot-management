@@ -53,7 +53,7 @@ Remaining Instalments Duration: {{ $booking->remaining_duration }} months. <br>
     Development Charges paid.
 @endif
 <br>
-<a href="/assign/customer/{{$booking->id}}">Click here</a> to assign a Customer.
+<a href="/{{$slug}}/assign/customer/{{$booking->id}}">Click here</a> to assign a Customer.
 
 
 <h2>Customer(s) Information</h2>

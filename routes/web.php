@@ -10,6 +10,9 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CustomerController;
 
 
+Route::get('/none', function () {
+    return redirect('/');
+});
 
 Route::get('/dashboard', function () {
     return view('home');
@@ -21,8 +24,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/{scheme}/invoice/test', [InvoiceController::class, 'store']);
     Route::get('/booking/customers', [BookingController::class, 'viewCustomers']);
-    Route::post('/booking/assign', [BookingController::class, 'saveCustomer']);
-    Route::get('/assign/customer/{id}', [BookingController::class, 'assignCustomer']);
+    Route::post('/{scheme}/booking/assign', [BookingController::class, 'saveCustomer']);
+    Route::get('/{scheme}/assign/customer/{id}', [BookingController::class, 'assignCustomer']);
     Route::get('/{scheme}/customer/assign-new', [BookingController::class, 'assignNewCustomer']);
     Route::get('/plots', [SchemeController::class, 'list']);
     Route::get('/invoices/{id}', [InvoiceController::class, 'list']);

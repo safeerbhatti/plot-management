@@ -22,7 +22,7 @@ class BookingController extends Controller
      */
     public function index($scheme)
     {
-        $scheme = Scheme::where('slug', $scheme)->first();
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
         $bookings = Booking::where('scheme_id', $scheme->id)->get();
 
@@ -38,7 +38,7 @@ class BookingController extends Controller
     {
         // get all plots
         $plots = Plot::all();
-        $scheme = Scheme::where('slug', $scheme)->first();
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
 
         return view('bookings.create', compact('plots', 'slug'));
@@ -66,7 +66,8 @@ class BookingController extends Controller
             'biYearlyRadio' => 'required',
         ]);
 
-        $scheme = Scheme::where('slug', $scheme)->first();
+
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
 
         $file = $request->file('agreement_file');
@@ -139,7 +140,7 @@ class BookingController extends Controller
      */
     public function show($scheme, $id)
     {
-        $scheme = Scheme::where('slug', $scheme)->first();
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
         $bookedCustomers = BookedCustomer::where('booking_id', $id)->pluck('customer_id');
         $customers = Customer::findMany($bookedCustomers);
@@ -183,7 +184,7 @@ class BookingController extends Controller
 
     public function assignCustomer($scheme, $id)
     {
-        $scheme = Scheme::where('slug', $scheme)->first();
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
         $booking = $id;
         $customers = Customer::pluck('id');
@@ -193,7 +194,7 @@ class BookingController extends Controller
     public function assignNewCustomer($scheme)
     {
 
-        $scheme = Scheme::where('slug', $scheme)->first();
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
         $bookings = Booking::where('scheme_id', $scheme->id)->pluck('id');
 
@@ -206,7 +207,7 @@ class BookingController extends Controller
         return view('customers.assign', compact('bookings', 'customers', 'slug'));
     }
 
-    public function saveCustomer(Request $request)
+    public function saveCustomer(Request $request, $scheme)
     {
 
         $validated = $request->validate([
@@ -215,6 +216,6 @@ class BookingController extends Controller
         ]);
         BookedCustomer::firstOrCreate($validated);
 
-        return redirect('/booking' . '/' . $validated['booking_id']);
+        return redirect('/'.$scheme.'/booking' . '/' . $validated['booking_id']);
     }
 }

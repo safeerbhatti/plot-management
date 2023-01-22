@@ -18,7 +18,7 @@
                                     name="class"
                                     id="class"
                                     value="{{ old('class') }}"
-                                    class="form-control form-control-user"
+                                    class="form-control"
                                     placeholder="Class"
                                 />
                                 @error('name')
@@ -31,7 +31,7 @@
                                     name="plot_number"
                                     id="plot_number"
                                     value="{{ old('plot_number') }}"
-                                    class="form-control form-control-user"
+                                    class="form-control"
                                     placeholder="Plot Number"
                                 />
                                 @error('slug')
@@ -48,7 +48,7 @@
                                     value="{{
                                         old('plot_area_in_square_feet')
                                     }}"
-                                    class="form-control form-control-user"
+                                    class="form-control"
                                     placeholder="Plot Area"
                                 />
                                 @error('name')
@@ -62,7 +62,7 @@
                                     id="scheme"
                                     value="{{ $slug }}"
                                     readonly
-                                    class="form-control form-control-user"
+                                    class="form-control"
                                 />
                                 @error('slug')
                                 {{ $message }}

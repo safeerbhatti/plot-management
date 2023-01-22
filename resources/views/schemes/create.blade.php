@@ -15,7 +15,7 @@
                                         name="name"
                                         id="name"
                                         value="{{ old('name') }}"
-                                        class="form-control form-control-user"
+                                        class="form-control"
                                         placeholder="Scheme Name"
                                     />
                                     @error('name')
@@ -28,7 +28,7 @@
                                         name="slug"
                                         id="slug"
                                         value="{{ old('slug') }}"
-                                        class="form-control form-control-user"
+                                        class="form-control"
                                         placeholder="Scheme Unique Value"
                                     />
                                     @error('slug')
