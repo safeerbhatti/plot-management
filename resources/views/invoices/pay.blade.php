@@ -1,7 +1,7 @@
 @extends('layouts.app', ['slug' => $slug]) @section('content')
 
 <div class="container-fluid">
-    <form action="/{{$slug}}/invoice/test" method="POST">
+    <form action="/{{$slug}}/invoice" method="POST">
         @csrf
         <label for="booking-id">Booking ID</label>
         <input
@@ -56,7 +56,7 @@
                 value="{{ old('instalment_amount') }}"
             />
             <br />
-            @error('installment_amount')
+            @error('instalment_amount')
             {{ $message }}
             @enderror
             <br>
@@ -88,10 +88,38 @@
             <br>
         </div>
 
+        <div id="bi_yearly_section" style="display: none">
+            <label for="development_charges">Total Charges</label>
+            <input
+                type="number"
+                name="bi_yearly_fee"
+                id="bi_yearly_fee"
+                value="{{ $booking->bi_yearly_fee}}"
+                readonly
+            />
+            @error('bi_yearly_fee')
+            {{ $message }}
+            @enderror
+            <br>
+
+            <label for="pay_yearly">Pay Amount</label>
+            <input
+                type="number"
+                name="pay_yearly"
+                id="pay_yearly"
+                value="{{ $booking->bi_yearly_fee}}"
+            />
+            @error('pay_yearly')
+            {{ $message }}
+            @enderror
+            <br>
+        </div>
+
         <button type="button" id="btnInvoice">Show Installment Invoice</button>
         <button type="button" id="btnDev">
             Show Development Charges Invoice
         </button>
+        <button type="button" id="btnBi">Show Bi Yearly Invoice</button>
         <button type="submit">Submit</button>
     </form>
 </div>
@@ -100,14 +128,38 @@
 <script>
     $(document).ready(function () {
 
+        var dev = $('#development_charges').val();
+        var paydev = $('#pay_charges').val();
+        var bi = $('#bi_yearly_fee').val();
+        var paybi = $('#pay_yearly').val();
+
         $('#btnInvoice').click(function () {
             $('#installment_section').show();
             $('#development_section').hide();
+            $('#bi_yearly_section').hide();
+            $('#development_charges').val("");
+            $('#pay_charges').val("");
         });
 
         $('#btnDev').click(function () {
             $('#development_section').show();
             $('#installment_section').hide();
+            $('#bi_yearly_section').hide();
+            $('#bi_yearly_fee').val("");
+            $('#pay_yearly').val("");
+            $('#development_charges').val(dev);
+            $('#pay_charges').val(paydev);
+        });
+
+        $('#btnBi').click(function () {
+            $('#development_section').hide();
+            $('#installment_section').hide();
+            $('#bi_yearly_section').show();
+            $('#development_charges').val("");
+            $('#pay_charges').val("");
+            $('#bi_yearly_fee').val(bi);
+            $('#pay_yearly').val(paybi);
+
         });
 
         $('select[name=installment_year]').change(function () {
@@ -117,8 +169,8 @@
                 type: 'POST',
                 data: {
                     installment_year: year,
-                    booking_id: {{ $booking-> id }},
-        _token: '{{ csrf_token() }}'
+                    booking_id: {{ $booking-> id }}, 
+                    _token: '{{ csrf_token() }}'
                 },
         success: function (response) {
             // check if response is not empty

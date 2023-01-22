@@ -15,7 +15,7 @@ Route::get('/none', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('home');
+    return redirect('/');
 });
 
 Route::get('/', [SchemeController::class, 'index']);
@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/{scheme}/assign/customer/{id}', [BookingController::class, 'assignCustomer']);
     Route::get('/{scheme}/customer/assign-new', [BookingController::class, 'assignNewCustomer']);
     Route::get('/plots', [SchemeController::class, 'list']);
-    Route::get('/invoices/{id}', [InvoiceController::class, 'list']);
+    Route::get('/{scheme}/invoices/{id}', [InvoiceController::class, 'list']);
     Route::get('/{scheme}/invoice/pay/{booking}', [InvoiceController::class, 'pay']);
     Route::get('/{scheme}/invoice/custom', [InvoiceController::class, 'custom']);
     Route::post('/invoice/getBookingMonths', [InvoiceController::class, 'getBookingMonths']);
@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('{scheme}/plot', PlotController::class);
     Route::resource('{scheme}/booking', BookingController::class);
     Route::resource('scheme', SchemeController::class);
-    Route::resource('invoice', InvoiceController::class);
+    Route::resource('{scheme}/invoice', InvoiceController::class);
     Route::resource('account', AccountController::class);
 
     Route::prefix('{slug}')->group(function () {

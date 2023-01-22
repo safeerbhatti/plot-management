@@ -24,7 +24,6 @@ Amount: Rupees {{$booking->bi_yearly_fee}}
     <p>Bi yearly fee saperate from monthly instalments.</p>
 @endif
 
-
 <h4>Payment Information</h4>
 Down Payment: Rupees {{ $booking->down_payment}}/- <br>
 Instalment/Month: Rupees {{ $booking->instalment_per_month}}/- <br>
@@ -33,8 +32,8 @@ Total Instalment Duration: {{ $booking->instalment_duration }} months. <br>
 Remaining Instalments Duration: {{ $booking->remaining_duration }} months. <br>
 <br>
 <a href="{{$booking->agreement_file}}">Click here </a>to view Agreement. <br>
-<a href="/invoices/{{$booking->id}}">Click here</a> to check paid invoices. <br>
-<a href="/invoice/pay/{{$booking->id}}">Click here</a> to pay Instalment. <br>
+<a href="/{{$slug}}/invoices/{{$booking->id}}">Click here</a> to check paid invoices. <br>
+<a href="/{{$slug}}/invoice/pay/{{$booking->id}}">Click here</a> to pay Instalment. <br>
 
 @if($booking->bi_fee_status === 'unpaid')
     <a href="/bi-yearly/pay/{{$booking->id}}">Click here</a> to pay Bi Yearly Fee.
@@ -54,7 +53,6 @@ Remaining Instalments Duration: {{ $booking->remaining_duration }} months. <br>
 @endif
 <br>
 <a href="/{{$slug}}/assign/customer/{{$booking->id}}">Click here</a> to assign a Customer.
-
 
 <h2>Customer(s) Information</h2>
 @foreach($customers as $customer)

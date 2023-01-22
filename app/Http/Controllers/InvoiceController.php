@@ -26,15 +26,17 @@ class InvoiceController extends Controller
         return view('invoices.index');
     }
 
-    public function list($id)
+    public function list($scheme, $id)
     {
         //booking scheme where slug from url
 
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+        $slug = $scheme->slug;
         $booking = Booking::find($id);
         $invoices = Invoice::where('booking_id', $booking->id)->get();
         $dues = Due::where('booking_id', $booking->id)->first();
 
-        return view('invoices.history', compact('invoices', 'dues', 'booking'));
+        return view('invoices.history', compact('invoices', 'dues', 'booking', 'slug'));
     }
 
     /**
@@ -101,6 +103,9 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+
+        
+
         if ($request->filled('development_charges') && $request->filled('pay_charges')) {
             $validated = $request->validate([
                 'booking_id' => 'required',
@@ -112,6 +117,12 @@ class InvoiceController extends Controller
             return 'Maximum development charges exceed';
 
             $booking = Booking::find($validated['booking_id']);
+
+            if($booking->dev_charges_status === 'paid')
+            {
+                return 'Charges Already Paid';
+            }
+
             $invoice = new Invoice();
             $invoice->user_id = 1;
             $invoice->booking_id = $validated['booking_id'];
@@ -119,6 +130,60 @@ class InvoiceController extends Controller
             $invoice->instalment_amount = $validated['pay_charges'];
             $invoice->dues = $validated['development_charges'] - $validated['pay_charges'];
             $invoice->save();
+
+            $dues = Due::where('booking_id', $booking->id)->first();
+            if(!$dues)
+            {
+                $dues = new Due();
+                $dues->booking_id = $booking->id;
+            }
+            $dues->dues_remaining += $invoice->dues;
+            $dues->save();
+
+            $booking->dev_charges_status = 'paid';
+            $booking->save();
+            
+            return redirect('/');
+        }
+
+        if ($request->filled('bi_yearly_fee') && $request->filled('pay_yearly')){
+            $validated = $request->validate([
+                'booking_id' => 'required',
+                'bi_yearly_fee' => 'required',
+                'pay_yearly' => 'required',
+            ]);
+
+            if($validated['bi_yearly_fee'] < $validated['pay_yearly'])
+            return 'Maximum Bi Yearly charges exceed';
+
+            $booking = Booking::find($validated['booking_id']);
+
+            if($booking->bi_fee_status === 'paid')
+            {
+                return 'Bi Yearly fee already Paid';
+            }
+
+            $invoice = new Invoice();
+            $invoice->user_id = 1;
+            $invoice->booking_id = $validated['booking_id'];
+            $invoice->booking_month = 'Bi Yearly Fee';
+            $invoice->instalment_amount = $validated['pay_yearly'];
+            $invoice->dues = $validated['bi_yearly_fee'] - $validated['pay_yearly'];
+            $invoice->save();
+            $booking->bi_fee_status = 'paid';
+            $booking->save();
+            
+            $dues = Due::where('booking_id', $booking->id)->first();
+            if(!$dues)
+            {
+                $dues = new Due();
+                $dues->booking_id = $booking->id;
+            }
+            $dues->dues_remaining += $invoice->dues;
+            $dues->save();
+
+            return redirect('/');
+
         }
 
         $validated = $request->validate([
@@ -160,6 +225,14 @@ class InvoiceController extends Controller
 
                 break;
             }
+            $dues = Due::where('booking_id', $booking->id)->first();
+            if(!$dues)
+            {
+                $dues = new Due();
+                $dues->booking_id = $booking->id;
+            }
+            $dues->dues_remaining += $invoice->dues;
+            $dues->save();
         }
 
         $scheme = Scheme::find($booking->scheme_id);
