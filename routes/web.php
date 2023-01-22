@@ -32,19 +32,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/{scheme}/invoice/pay/{booking}', [InvoiceController::class, 'pay']);
     Route::get('/{scheme}/invoice/custom', [InvoiceController::class, 'custom']);
     Route::post('/invoice/getBookingMonths', [InvoiceController::class, 'getBookingMonths']);
-    Route::post('/expense', [AccountController::class, 'storeExpense']);
-    Route::get('/expense', [AccountController::class, 'createExpense']);
+    Route::post('/{scheme}/expense', [AccountController::class, 'storeExpense']);
+    Route::get('/{scheme}/expense', [AccountController::class, 'createExpense']);
     Route::post('/bi-yearly', [InvoiceController::class, 'storeBiYearly']);
     Route::get('/bi-yearly/pay/{id}', [InvoiceController::class, 'payBiYearly']);
     Route::post('/dev-charges', [InvoiceController::class, 'storeDevCharges']);
     Route::get('/dev-charges/pay/{id}', [InvoiceController::class, 'payDevCharges']);
     
-    Route::resource('customer', CustomerController::class);
+    Route::resource('{scheme}/customer', CustomerController::class);
     Route::resource('{scheme}/plot', PlotController::class);
     Route::resource('{scheme}/booking', BookingController::class);
     Route::resource('scheme', SchemeController::class);
     Route::resource('{scheme}/invoice', InvoiceController::class);
-    Route::resource('account', AccountController::class);
+    Route::resource('{scheme}/account', AccountController::class);
 
     Route::prefix('{slug}')->group(function () {
 

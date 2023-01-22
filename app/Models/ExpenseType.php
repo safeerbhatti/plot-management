@@ -9,4 +9,9 @@ class ExpenseType extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function scheme()
+    {
+        return $this->belongsTo(Scheme::class);
+    }
 }

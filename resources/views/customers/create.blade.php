@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.app', ['slug' => $slug])
 @section('content')
 
-<form action="/customer" method="POST">
+<form action="/{{$slug}}/customer" method="POST">
     @csrf
     <label for="name">Name</label>
     <input type="text" name="name" id="name" value="{{old('name')}}">

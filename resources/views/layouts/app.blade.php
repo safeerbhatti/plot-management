@@ -69,7 +69,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Options:</h6>
                         <a class="collapse-item" href="/{{$slug ?? "none"}}/plot/create">New Plot</a>
-                        <a class="collapse-item" href="/{{$slug ?? "none"}}/plot">View All Plots</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/plot">All Plots</a>
                     </div>
                 </div>
             </li>
@@ -97,7 +97,9 @@
                 <div id="collapse5" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Options:</h6>
-                        <a class="collapse-item" href="/customer/create">New Customer</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/customer">All Customers</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/customer/create">New Customer</a>
+
                     </div>
                 </div>
             </li>
@@ -123,9 +125,9 @@
                 <div id="collapse7" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Options:</h6>
-                        <a class="collapse-item" href="/account/create">New Record</a>
-                        <a class="collapse-item" href="/account">View Records</a>
-                        <a class="collapse-item" href="/expense">New Expense</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/account/create">New Record</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/account">View Records</a>
+                        <a class="collapse-item" href="/{{$slug ?? "none"}}/expense">New Expense</a>
                     </div>
                 </div>
             </li>

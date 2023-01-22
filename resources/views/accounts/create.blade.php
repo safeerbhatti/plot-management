@@ -1,6 +1,6 @@
-@extends('layouts.app') @section('content')
+@extends('layouts.app', ['slug' => $slug]) @section('content')
 <div class="container-fluid">
-    <form action="/account" method="POST">
+    <form action="/{{$slug}}/account" method="POST">
         @csrf
 
         <label for="expense_type">Select Expense Type</label>

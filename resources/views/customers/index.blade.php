@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['slug' => $slug])
 @section('content')
 
 <div class="container-fluid">

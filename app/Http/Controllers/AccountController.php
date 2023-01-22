@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Scheme;
 use App\Models\Account;
 use App\Models\ExpenseType;
 use Illuminate\Http\Request;
@@ -13,10 +14,12 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($scheme)
     {
-        $accounts = Account::all();
-        return view('accounts.index', compact('accounts'));
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
+        $accounts = Account::where('scheme_id', $scheme->id)->get();
+        return view('accounts.index', compact('accounts', 'slug'));
     }
 
     /**
@@ -24,10 +27,12 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($scheme)
     {
-        $expenses = ExpenseType::all();
-        return view('accounts.create', compact('expenses'));
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
+        $expenses = ExpenseType::where('scheme_id', $scheme->id)->get();
+        return view('accounts.create', compact('expenses', 'slug'));
     }
 
     /**
@@ -36,16 +41,23 @@ class AccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($scheme, Request $request)
     {
         $validated = $request->validate([
             'expense_type' => 'required',
             'expense_amount' => 'required',
         ]);
 
-        $acounts = Account::create($validated);
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
 
-        return redirect('/account');
+        $acounts = Account::create([
+            'expense_type' => $validated['expense_type'],
+            'expense_amount' => $validated['expense_amount'],
+            'scheme_id' => $scheme->id,
+        ]);
+
+        return redirect('/'.$slug.'/account');
     }
 
     /**
@@ -93,19 +105,29 @@ class AccountController extends Controller
         //
     }
 
-    public function createExpense()
+    public function createExpense($scheme)
     {
-        return view('accounts.expense');
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
+        return view('accounts.expense', compact('slug'));
     }
 
-    public function storeExpense(Request $request)
+    public function storeExpense($scheme, Request $request)
     {
+
         $validated = $request->validate([
             'type' => 'required',
             'desc' => 'required',
         ]);
+        $scheme = Scheme::where('slug', $scheme)->first();
+        $slug = $scheme->slug;
 
-        $expense = ExpenseType::create($validated);
-        return redirect('/account/create');
+        $expense = ExpenseType::create([
+            'type' => $validated['type'],
+            'desc' => $validated['desc'],
+            'scheme_id' => $scheme->id,
+        ]);
+
+        return redirect('/'.$slug.'/account/create');
     }
 }

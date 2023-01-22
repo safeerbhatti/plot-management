@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Scheme;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,12 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($scheme)
     {
-        $customers = Customer::paginate(10);
-        return view('customers.index', compact("customers"));
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+        $slug = $scheme->slug;
+        $customers = Customer::where('scheme_id', $scheme->id)->get();
+        return view('customers.index', compact("customers", "slug"));
     }
 
     /**
@@ -23,9 +26,11 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($scheme)
     {
-        return view('customers.create');
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+        $slug = $scheme->slug;
+        return view('customers.create', compact('slug'));
     }
 
     /**
@@ -34,8 +39,10 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($scheme, Request $request)
     {
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+        $slug = $scheme->slug;
         $validated = $request->validate([
             'name' => 'required',
             'address' => 'required',
@@ -43,9 +50,15 @@ class CustomerController extends Controller
             'phone' => 'required',
         ]);
 
-        Customer::create($validated);
+        Customer::create([
+            'name' => $validated['name'],
+            'address' => $validated['address'],
+            'cnic' => $validated['cnic'],
+            'phone' => $validated['phone'],
+            'scheme_id' => $scheme->id,
+        ]);
         
-        return redirect('/customer');
+        return redirect('/'.$slug.'/customer');
     }
 
     /**

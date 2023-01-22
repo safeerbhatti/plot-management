@@ -9,7 +9,12 @@
             <div class="col-lg-7">
                 <div class="text-center p-5">
                     <h1 class="h4 text-gray-900 mb-4">Create A new Booking</h1>
-                    <form action="/{{$slug}}/booking" method="POST" enctype="multipart/form-data" class="user">
+                    <form
+                        action="/{{ $slug }}/booking"
+                        method="POST"
+                        enctype="multipart/form-data"
+                        class="user"
+                    >
                         @csrf
                         <input type="hidden" name="size" value="" />
                         <input
@@ -62,7 +67,7 @@
                             </select>
                             --}}
                         </div>
-                        <div id="details" style="display: none;">
+                        <div id="details" style="display: none">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input
@@ -212,22 +217,151 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input
-                                    type="number"
-                                    name="instalment_fee"
-                                    id="instalment_fee"
-                                    class="form-control"
-                                    placeholder="Monthly Instalment"
-                                    readonly
-                                />
+                                        type="number"
+                                        name="instalment_fee"
+                                        id="instalment_fee"
+                                        class="form-control"
+                                        placeholder="Monthly Instalment"
+                                        readonly
+                                    />
                                     <button type="button" id="calculate">
                                         Calculate
                                     </button>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <div
+                                        class="parent"
+                                        style="
+                                            width: 350px;
+                                            height: 200px;
+                                            border: 1px solid black;
+                                            margin: auto;
+                                            display: grid;
+                                            grid-template-columns: 250px 100px;
+                                        "
+                                    >
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                        >
+                                            Price per square feet
+                                        </div>
+                                        <div
+                                            id="square_price"
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                        ></div>
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                        >
+                                            Down Payment
+                                        </div>
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                            id="down_payment2"
+                                        ></div>
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                        >
+                                            Monthly Instalment
+                                        </div>
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                            id="monthly_instalment"
+                                        ></div>
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                        >
+                                            Development Charges
+                                        </div>
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                            id="dev_charges"
+                                        ></div>
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                        >
+                                            Bi Yearly Fee
+                                        </div>
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                            id="bi_yearly_fee"
+                                        ></div>
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                        >
+                                            Total Fee
+                                        </div>
+                                        <div
+                                            class="child child1"
+                                            style="border: 1px solid black"
+                                            id="total_fee"
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input
+                                        type="text"
+                                        name="customer_name"
+                                        id="customer_name"
+                                        value="{{ old('customer_name') }}"
+                                        placeholder="Customer Name"
+                                    />
+                                    @error('name')
+                                    <p>Can not edit if empty.</p>
+                                    @enderror
+
+                                    <input
+                                        type="text"
+                                        name="customer_cnic"
+                                        id="customer_cnic"
+                                        value="{{ old('customer_cnic') }}"
+                                        placeholder="Customer CNIC"
+                                    />
+                                    @error('customer_cnic')
+                                    <p>Can not edit if empty.</p>
+                                    @enderror
+
+                                    <input
+                                        type="text"
+                                        name="customer_phone"
+                                        id="customer_phone"
+                                        value="{{ old('customer_phone') }}"
+                                        placeholder="Customer Phone"
+                                    />
+                                    @error('customer_phone')
+                                    <p>Can not edit if empty.</p>
+                                    @enderror
+
+                                    <input
+                                        type="text"
+                                        name="customer_address"
+                                        id="customer_address"
+                                        value="{{ old('customer_address') }}"
+                                        placeholder="Customer Address"
+                                    />
+                                    @error('customer_address')
+                                    <p>Can not edit if empty.</p>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                         <button
                             type="submit"
-                            class="btn btn-primary btn-user btn-block"
+                            class="col-sm-6 mb-3 mb-sm-0 btn btn-primary btn-user btn-block"
                         >
                             Submit
                         </button>
@@ -237,237 +371,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="container-fluid">
-    <!-- <form action="/{{$slug}}/booking" method="POST" enctype="multipart/form-data">
-        @csrf
-        <input type="hidden" name="size" value="" />
-        <input
-            type="hidden"
-            name="slug"
-            id="slug"
-            class="slug"
-            value="{{ $slug }}"
-        />
-
-        <label for="class">Class</label>
-        <input type="text" name="class" id="class" value="{{ old('class') }}" />
-        <br />
-        @error('class')
-        {{ $message }}
-        @enderror
-        <br />
-
-        <label for="plot_number">Plot Number</label>
-        <input
-            type="text"
-            name="plot_number"
-            id="plot_number"
-            value="{{ old('plot_number') }}"
-        />
-        <br />
-        @error('plot_number')
-        {{ $message }}
-        @enderror
-        <br />
-
-        {{-- <label for="plot_number">Plot Number</label>
-        <select name="plot_number[]" id="plot_number" multiple>
-            @foreach($plots as $plot)
-            <option value="{{ $plot->plot_number }}">
-                {{$plot->plot_number}}
-            </option>
-            @endforeach
-        </select>
-        --}}
-
-        <div id="details">
-            <label for="khata_number">Khata Number</label>
-            <input
-                type="text"
-                name="khata_number"
-                id="khata_number"
-                value="{{ old('khata_number') }}"
-            />
-            <br />
-            @error('khata_number')
-            {{ $message }}
-            @enderror
-            <br />
-
-            <label for="agreement_number">Agreement Number</label>
-            <input
-                type="text"
-                name="agreement_number"
-                id="agreement_number"
-                value="{{ old('agreement_number') }}"
-            />
-            <input type="file" name="agreement_file" id="agreement_file" />
-            <br />
-            @error('agreement_number')
-            {{ $message }}
-            @enderror
-            <br />
-
-            <label for="price_square_feet">Price per square feet</label>
-            <input
-                type="number"
-                name="price_square_feet"
-                id="price_square_feet"
-                value="{{ old('price_square_feet') }}"
-            />
-            <br />
-            @error('price_square_feet')
-            {{ $message }}
-            @enderror
-            <br />
-
-            <label for="down_payment">Down Payment</label>
-            <input
-                type="number"
-                name="down_payment"
-                id="down_payment"
-                value="{{ old('down_payment') }}"
-            />
-            <br />
-            @error('down_payment')
-            {{ $message }}
-            @enderror
-            <br />
-
-            <label for="instalment_duration">Instalment Duration</label>
-            <input
-                type="number"
-                name="instalment_duration"
-                id="instalment_duration"
-                value="{{ old('instalment_duration') }}"
-            />
-            <br />
-
-            @error('instalment_duration')
-            {{ $message }}
-            @enderror
-            <br />
-
-            <label for="development_charges">Development Charges Amount</label>
-            <input
-                type="number"
-                name="development_charges"
-                id="development_charges"
-                value="{{ old('development_charges') }}"
-            />
-
-            <br />
-            @error('development_charges')
-            {{ $message }}
-            @enderror
-            <br />
-
-            <label for="bi-yearly-fee">Bi Yearly Fee</label>
-            <input
-                type="number"
-                name="bi-yearly-fee"
-                id="bi-yearly-fee"
-                value="{{ old('bi-yearly-fee') }}"
-            />
-
-            <br />
-            @error('bi-yearly-fee')
-            {{ $message }}
-            @enderror
-            <br />
-
-            <input
-                type="radio"
-                name="biYearlyRadio"
-                id="payBiYearlyMonthly"
-                value="monthly"
-                checked
-            />
-            <label for="payBiYearlyMonthly"> Add In Monthly Instalment </label>
-            <input
-                type="radio"
-                name="biYearlyRadio"
-                id="payBiYearlyOnce"
-                value="once"
-            />
-            <label for="payBiYearlyOnce"> Add In Saperate Payment </label>
-            <br />
-            <label for="instalment_duration">Monthly Installment</label>
-            <input
-                type="number"
-                name="instalment_fee"
-                id="instalment_fee"
-                readonly
-            />
-            <button type="button" id="calculate">Calculate</button>
-            <br />
-        </div>
-
-        <button type="submit">Submit</button>
-    </form> -->
-
-    <div
-        class="parent"
-        style="
-            width: 350px;
-            height: 200px;
-            border: 1px solid black;
-            margin: auto;
-            display: grid;
-            grid-template-columns: 250px 100px;
-        "
-    >
-        <div class="child child1" style="border: 1px solid black">
-            Price per square feet
-        </div>
-        <div
-            id="square_price"
-            class="child child1"
-            style="border: 1px solid black"
-        ></div>
-        <div class="child child1" style="border: 1px solid black">
-            Down Payment
-        </div>
-        <div
-            class="child child1"
-            style="border: 1px solid black"
-            id="down_payment2"
-        ></div>
-        <div class="child child1" style="border: 1px solid black">
-            Monthly Instalment
-        </div>
-        <div
-            class="child child1"
-            style="border: 1px solid black"
-            id="monthly_instalment"
-        ></div>
-        <div class="child child1" style="border: 1px solid black">
-            Development Charges
-        </div>
-        <div
-            class="child child1"
-            style="border: 1px solid black"
-            id="dev_charges"
-        ></div>
-        <div class="child child1" style="border: 1px solid black">
-            Bi Yearly Fee
-        </div>
-        <div
-            class="child child1"
-            style="border: 1px solid black"
-            id="bi_yearly_fee"
-        ></div>
-        <div class="child child1" style="border: 1px solid black">
-            Total Fee
-        </div>
-        <div
-            class="child child1"
-            style="border: 1px solid black"
-            id="total_fee"
-        ></div>
     </div>
 </div>
 
@@ -552,16 +455,28 @@
             var total_price = size * price_square_feet;
             var new_total;
 
+            var down_payment = $("#down_payment").val();
+            var dev_charges_value = $("#development_charges").val();
+            var bi_fee_value = $("#bi-yearly-fee").val();
+
+            var total_fee_value =
+                parseFloat(total_price) +
+                parseFloat(dev_charges_value) +
+                parseFloat(bi_fee_value);
+            $("#total_fee").text(total_fee_value);
+
             if (value === "monthly") {
                 new_total = parseFloat(total_price) + parseFloat(bi_fee);
+                bi_fee_total = total_price;
             } else if (value === "once") {
                 new_total = total_price;
+                bi_fee_total = total_price;
             }
 
             total_price = new_total;
 
             // calculate down payment
-            var down_payment = $("#down_payment").val();
+
             var total_price_after_down_payment = total_price - down_payment;
 
             // divide by monthly instalment

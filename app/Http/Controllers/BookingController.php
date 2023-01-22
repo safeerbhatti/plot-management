@@ -40,8 +40,9 @@ class BookingController extends Controller
         $plots = Plot::all();
         $scheme = Scheme::where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
+        $customers = Customer::all();
 
-        return view('bookings.create', compact('plots', 'slug'));
+        return view('bookings.create', compact('plots', 'slug', 'customers'));
     }
 
     /**
@@ -64,7 +65,9 @@ class BookingController extends Controller
             'bi-yearly-fee' => 'required',
             'agreement_file' => 'required|mimes:jpeg,png,jpg|max:2048',
             'biYearlyRadio' => 'required',
+            'class' => 'required',
         ]);
+
 
 
         $scheme = Scheme::where('slug', $scheme)->firstOrFail();
@@ -76,13 +79,11 @@ class BookingController extends Controller
         $path = Storage::putFileAs('public/files', $file, $newName);
 
         $newPath = substr($path, 6);
-
-
-
         $path = env('APP_URL') . 'storage' . $newPath;
 
-        //$plot = Plot::whereIn('plot_number', $validated['plot_number'])->get();
-        $plot = Plot::where('plot_number', $validated['plot_number'])->first();
+        $plot = Plot::where('plot_number', $validated['plot_number'])
+        ->where('class', $validated['class'])
+        ->where('scheme_id', $scheme->id)->first();
 
 
         if (!$plot) {
@@ -101,6 +102,7 @@ class BookingController extends Controller
         }
 
         $duration = $validated['instalment_duration'];
+
 
         $remainingAmount = $amount - $validated['down_payment'];
         $monthlyInstalment = $remainingAmount / $duration;
@@ -121,6 +123,8 @@ class BookingController extends Controller
             'agreement_file' => $path,
             'bi_yearly_type' => $validated['biYearlyRadio'],
             'scheme_id' => $scheme->id,
+            'plot_id' => $plot->id,
+            
         ]);
         $plot->booking_id = $booking->id;
         $plot->save();
@@ -128,6 +132,26 @@ class BookingController extends Controller
         Due::create([
             'booking_id' => $booking->id,
         ]);
+
+        $customer = null;
+
+        if($request->filled('customer_name') && $request->filled('customer_phone') 
+        && $request->filled('customer_address') && $request->filled('customer_cnic'))
+        {
+            $customer = Customer::create([
+                'name' => $request->input('customer_name'),
+                'cnic' => $request->input('customer_cnic'),
+                'address' => $request->input('customer_address'),
+                'phone' => $request->input('customer_phone'),
+                'scheme_id' => $scheme->id,
+                
+            ]);
+
+            BookedCustomer::create([
+                'customer_id' => $customer->id,
+                'booking_id' => $booking->id,
+            ]);
+        }
 
         return redirect('/' . $slug . '/booking');
     }
