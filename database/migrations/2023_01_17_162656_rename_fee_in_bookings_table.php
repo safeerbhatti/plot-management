@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->renameColumn('bi_yearly_fee', 'bi-yearly-fee');
+            $table->dropColumn('bi_yearly_fee');
 
         });
     }
