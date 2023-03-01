@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->renameColumn('bi-yearly-fee', 'bi_yearly_fee');
+            $table->renameColumn('bi-yearly-fee', 'bi_yearly_fee')->nullable();
         });
     }
 

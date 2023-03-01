@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Plot;
 use App\Models\Account;
 use App\Models\Booking;
+use App\Models\Customer;
 use App\Models\ExpenseType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
