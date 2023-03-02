@@ -15,9 +15,7 @@ class SchemeController extends Controller
     public function index()
     {
         $schemes = Scheme::all();
-        $slug = $schemes[0]->slug;
-
-
+        $slug = 'test';
         return view('schemes.index', compact('schemes', 'slug'));
     }
 

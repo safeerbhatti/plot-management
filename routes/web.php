@@ -10,15 +10,13 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CustomerController;
 
 
-Route::get('/none', function () {
-    return redirect('/');
-});
+Route::get('/', [SchemeController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return redirect('/');
 });
 
-Route::get('/', [SchemeController::class, 'index']);
+// Route::get('/', [SchemeController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
 
