@@ -165,6 +165,7 @@
                                         value="{{ old('development_charges') }}"
                                         class="form-control"
                                         placeholder="Development Charges"
+                                        hidden
                                     />
                                     @error('development_charges')
                                     {{ $message }}
@@ -180,6 +181,7 @@
                                         value="{{ old('bi-yearly-fee') }}"
                                         class="form-control"
                                         placeholder="Bi Yearly Fee"
+                                        hidden
                                     />
                                     @error('bi-yearly-fee')
                                     {{ $message }}
@@ -376,6 +378,10 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+
+    var bi_annual_fee;
+    var development_charges_fee;
+
     $(document).ready(function () {
         $("#class").on("change", function () {
             $("#plot_number").on("change", function () {
@@ -425,6 +431,22 @@
         $("#price_square_feet").on("change", function () {
             var square_price = $("#price_square_feet").val();
             $("#square_price").text(square_price);
+
+            var plot_size = $('input[name="size"]').val();
+            var plot_price = square_price * plot_size;
+
+            bi_annual_fee = (plot_price / 100)*10;
+            development_charges_fee = ((plot_price - bi_annual_fee)/100) * 10;
+
+            $("#development_charges").val(development_charges_fee);
+            $("#bi-yearly-fee").val(bi_annual_fee);
+
+            console.log("Bi annual fee: "+ bi_annual_fee);
+            console.log("development_charges_fee: "+ development_charges_fee);
+            console.log(plot_price);
+
+            $("#dev_charges").text(development_charges_fee);
+            $("#bi_yearly_fee").text(bi_annual_fee);
         });
 
         $("#down_payment").on("change", function () {
@@ -432,15 +454,18 @@
             $("#down_payment2").text(square_price);
         });
 
-        $("#development_charges").on("change", function () {
-            var square_price = $("#development_charges").val();
-            $("#dev_charges").text(square_price);
-        });
+        // $("#development_charges").on("change", function () {
+        //     // var square_price = $("#development_charges").val();
 
-        $("#bi-yearly-fee").on("change", function () {
-            var square_price = $("#bi-yearly-fee").val();
-            $("#bi_yearly_fee").text(square_price);
-        });
+        //     var square_price = development_charges_fee;
+        //     $("#dev_charges").text(square_price);
+        // });
+
+        // $("#bi-yearly-fee").on("change", function () {
+        //     var square_price = bi_annual_fee;
+        //     console.log('new bi fee: '+ bi_annual_fee);
+        //     $("#bi_yearly_fee").text(square_price);
+        // });
 
         $("#calculate").on("click", function () {
             // calculate total size and price from price_square_feet
