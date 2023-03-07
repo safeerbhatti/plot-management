@@ -1,30 +1,25 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Customer;
 
 use App\Models\Scheme;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class SchemeController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($scheme)
     {
-        $schemes = Scheme::all();
-        $slug = 'test';
-        return view('schemes.index', compact('schemes', 'slug'));
-    }
-
-    public function list($scheme)
-    {
-        $scheme = Scheme::where('name', $scheme)->first();
-        $plots = $scheme->plots;
-
-        return view('plots.scheme', compact('plots'));
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+        $slug = $scheme->slug;
+        $customers = Customer::where('scheme_id', $scheme->id)->get();
+        return view('customers.index', compact("customers", "slug"));
     }
 
     /**
@@ -32,9 +27,11 @@ class SchemeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($scheme)
     {
-        return view('schemes.create');
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+        $slug = $scheme->slug;
+        return view('customers.create', compact('slug'));
     }
 
     /**
@@ -43,15 +40,26 @@ class SchemeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($scheme, Request $request)
     {
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+        $slug = $scheme->slug;
         $validated = $request->validate([
             'name' => 'required',
-            'slug' => 'required|unique:schemes,slug',
+            'address' => 'required',
+            'cnic' => 'required',
+            'phone' => 'required',
         ]);
 
-        Scheme::create($validated);
-        return redirect('/scheme');
+        Customer::create([
+            'name' => $validated['name'],
+            'address' => $validated['address'],
+            'cnic' => $validated['cnic'],
+            'phone' => $validated['phone'],
+            'scheme_id' => $scheme->id,
+        ]);
+        
+        return redirect('/'.$slug.'/customer');
     }
 
     /**
@@ -62,9 +70,7 @@ class SchemeController extends Controller
      */
     public function show($id)
     {
-        $scheme = Scheme::find($id);
-        $slug = $scheme->slug;
-        return view('schemes.show', compact('scheme', 'slug'));
+        //
     }
 
     /**

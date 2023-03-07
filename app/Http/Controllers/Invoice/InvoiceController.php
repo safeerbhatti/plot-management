@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Invoice;
 
 use App\Models\Due;
 use App\Models\Scheme;
 use App\Models\Booking;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class InvoiceController extends Controller
 {

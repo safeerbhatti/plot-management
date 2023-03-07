@@ -449,8 +449,6 @@
             var bi_fee = $("#bi-yearly-fee").val();
             var value = $("input[name='biYearlyRadio']:checked").val();
 
-            console.log("bi fee" + bi_fee);
-            console.log(value);
 
             var total_price = size * price_square_feet;
             var new_total;

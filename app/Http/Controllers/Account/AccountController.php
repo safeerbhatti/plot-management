@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Account;
 
 use App\Models\Scheme;
 use App\Models\Account;
 use App\Models\ExpenseType;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AccountController extends Controller
 {

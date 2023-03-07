@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Plot;
 
 use App\Models\Plot;
 use App\Models\Scheme;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PlotController extends Controller
 {

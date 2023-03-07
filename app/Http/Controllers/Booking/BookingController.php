@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Booking;
 
 use App\Models\Due;
 use App\Models\Plot;
@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Models\BookedCustomer;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 

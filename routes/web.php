@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PlotController;
-use App\Http\Controllers\SchemeController;
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\Plot\PlotController;
+use App\Http\Controllers\Scheme\SchemeController;
+use App\Http\Controllers\Account\AccountController;
+use App\Http\Controllers\Booking\BookingController;
+use App\Http\Controllers\Invoice\InvoiceController;
+use App\Http\Controllers\Customer\CustomerController;
 
 
 Route::get('/', [SchemeController::class, 'index']);
