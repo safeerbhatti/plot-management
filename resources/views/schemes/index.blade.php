@@ -7,7 +7,9 @@
         @foreach($schemes as $scheme)
         <div class="card-body text-gray-800">
             <h5 class="card-title font-weight-bold">Scheme Name: {{ $scheme->name }}</h5>
-            <div class="card-text"><a class="card-link" href="/{{$scheme->slug ?? "none" }}/booking">click here</a> to view scheme details.</div>
+            <div class="card-text"><a class="card-link" href="/scheme/profile/{{$scheme->id ?? "none" }}">Profile</a></div>
+            <div class="card-text"><a class="card-link" href="/{{$scheme->slug ?? "none" }}/booking">Select Scheme</a></div>
+            <div class="card-text"><a class="card-link" href="/scheme/{{$scheme->id ?? "none" }}">Details</a></div>
             <hr>
         </div>
 
