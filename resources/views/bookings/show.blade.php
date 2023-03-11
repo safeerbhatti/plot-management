@@ -12,7 +12,7 @@
         </ul>
     </div>
 
-    <div class="card border-left-success shadwo my-5">
+    <div class="card border-left-success shadow my-5">
         <h4 class="card-header font-weight-bold text-success">Pricing</h4>
 
         <ul class="list-group list-group-flush">
@@ -21,7 +21,7 @@
         </ul>
     </div>
 
-    <div class="card border-left-danger shadwo my-5">
+    <div class="card border-left-danger shadow my-5">
         <h4 class="card-header font-weight-bold text-danger">Development Charges</h4>
 
         <ul class="list-group list-group-flush">
@@ -29,7 +29,7 @@
         </ul>
     </div>
 
-    <div class="card border-left-info shadwo my-5">
+    <div class="card border-left-info shadow my-5">
         <h4 class="card-header font-weight-bold text-info">Development Charges</h4>
 
         <ul class="list-group list-group-flush">
@@ -44,7 +44,7 @@
         </ul>
     </div>
 
-    <div class="card border-left-warning shadwo my-5">
+    <div class="card border-left-warning shadow my-5">
         <h4 class="card-header font-weight-bold text-warning">Payment Information</h4>
 
         <ul class="list-group list-group-flush">
