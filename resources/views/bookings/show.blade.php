@@ -5,7 +5,7 @@
     <ul class="list-group list-group-flush">
         <li>Plot: {{ $booking->plot->plot_number}} </li>
         <li>Size: {{ $booking->plot->plot_area_in_square_feet}}</li>
-        <li>Scheme Name: {{ $scheme->name}}</li>
+        <!-- <li>Scheme Name: {{ $scheme->name}}</li> -->
         <li>Total Amount: Rupees {{ $booking->total_amount }}/-</li>
         <li>
             @if ($booking->bi_yearly_type === 'monthly')
