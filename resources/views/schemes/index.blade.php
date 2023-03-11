@@ -1,7 +1,7 @@
 @extends('layouts.app') @section('content')
 
 <div class="container-fluid">
-    <div class="schemes-container d-flex justify-content-start">
+    <div class="schemes-container flex-wrap d-flex justify-content-start">
         @foreach($schemes as $scheme)
         <div class="card border-top-primary w-25 shadow mx-3">
             <h1 class="card-header text-primary font-weight-bold text-center">{{ $scheme->name }}</h1>
