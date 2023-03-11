@@ -16,7 +16,7 @@ class SchemeController extends Controller
     public function index()
     {
         $schemes = Scheme::all();
-        $slug = 'test';
+        $slug = 'none';
         return view('schemes.index', compact('schemes', 'slug'));
     }
 
@@ -99,6 +99,7 @@ class SchemeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Scheme::destroy($id);
+        return redirect('/scheme');
     }
 }

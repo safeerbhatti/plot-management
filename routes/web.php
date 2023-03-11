@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Scheme\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Plot\PlotController;
@@ -36,7 +37,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/bi-yearly/pay/{id}', [InvoiceController::class, 'payBiYearly']);
     Route::post('/dev-charges', [InvoiceController::class, 'storeDevCharges']);
     Route::get('/dev-charges/pay/{id}', [InvoiceController::class, 'payDevCharges']);
+
+    Route::get('/scheme/profile/{id}', [ProfileController::class, 'profile']);
     
+    Route::delete('/scheme/delete/{id}', [SchemeController::class, 'destroy'])->name('scheme');
+
+
     Route::resource('{scheme}/customer', CustomerController::class);
     Route::resource('{scheme}/plot', PlotController::class);
     Route::resource('{scheme}/booking', BookingController::class);
