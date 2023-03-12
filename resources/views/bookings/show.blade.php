@@ -2,7 +2,7 @@
 
 <div class="container-fluid plot-profile d-flex justify-content-around">
 
-    <div class="plot-profile_list">
+    <div class="plot-profile_list text-gray-800">
         <ul class="list-group list-group-flush">
             <li>Plot: {{ $booking->plot->plot_number}} </li>
             <li>Size: {{ $booking->plot->plot_area_in_square_feet}}</li>
@@ -53,10 +53,10 @@
     </div>
 
     <div class="plot-profile_customer-info">
-        <h4 class="card-header font-weight-bold text-primary">Customer(s) Information</h4>
+        <h4 class="card-header font-weight-bold text-gray-800">Customer Details</h4>
         @foreach($customers as $customer)
         <div class="customer-img"><img src="http://plot-management.test/img/undraw_profile.svg" alt="customer-img" class="img-fluid"></div>
-        <ul class="plot-profile_customer-info_list list-group list-group-flush">
+        <ul class="plot-profile_customer-info_list list-group list-group-flush text-gray-800">
             <li>1st Ownwer</li>
             <li>Name: {{$customer->name}}</li>
             <li>Father Name: {{$customer->name}}</li>
@@ -67,7 +67,7 @@
             <li>Customer Address: {{$customer->address}}</li>
         </ul>
     </div>
-    @endforeach
+    <!-- @endforeach -->
 
 </div>
 
