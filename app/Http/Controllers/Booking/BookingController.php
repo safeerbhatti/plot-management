@@ -23,11 +23,19 @@ class BookingController extends Controller
      */
     public function index($scheme)
     {
+
         $scheme = Scheme::where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
-        $bookings = Booking::where('scheme_id', $scheme->id)->get();
+        $bookings = Booking::with('plot', 'customer')->where('scheme_id', $scheme->id)->get();
 
         return view('bookings.index', compact('bookings', 'slug', 'scheme'));
+    }
+
+    public function all()
+    {
+        $bookings = Booking::all();
+
+        return view('bookings.all', compact('bookings'));
     }
 
     /**

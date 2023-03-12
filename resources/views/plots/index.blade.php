@@ -79,7 +79,7 @@
                 <td>
                     @if($plot->booking)
                     <button class="btn rounded-pill border-primary">Transfer</button>
-                    <button class="btn rounded-pill border-primary">Cancel</button>
+                    <a class="btn rounded-pill border-primary" href="/{{$slug}}/booking/{{$plot->booking->id}}">Details</a>
                     @else
                     <button class="btn rounded-pill border-primary mx-2">Book Now</button>
                     @endif

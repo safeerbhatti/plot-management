@@ -25,9 +25,9 @@ class PlotController extends Controller
             },
         ])->where('slug', $scheme)->first();
 
-
         $slug = $scheme->slug;
-        $plots = Plot::with('booking.customer')->get();
+
+        $plots = Plot::with('booking.customer')->where('scheme_id', $scheme->id)->get();
 
         // $plots = Plot::all();
 
