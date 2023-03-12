@@ -27,7 +27,7 @@ class BookingController extends Controller
         $slug = $scheme->slug;
         $bookings = Booking::where('scheme_id', $scheme->id)->get();
 
-        return view('bookings.index', compact('bookings', 'slug'));
+        return view('bookings.index', compact('bookings', 'slug', 'scheme'));
     }
 
     /**
@@ -173,7 +173,7 @@ class BookingController extends Controller
         // $customers = Customer::findMany($bookedCustomers);
         // $booking = Booking::find($id);
 
-        return view('bookings.show', compact('booking', 'slug'));
+        return view('bookings.show', compact('booking', 'slug', 'scheme'));
     }
     /**
      * Show the form for editing the specified resource.

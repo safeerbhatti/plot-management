@@ -7,22 +7,22 @@
         <ul class="list-group list-group-flush">
             <li>Plot: {{ $booking->plot->plot_number}} </li>
             <li>Size: {{ $booking->plot->plot_area_in_square_feet}}</li>
-            <li>Scheme Name: </li>
-            <li>Total Amount: Rupees {{ $booking->total_amount }}/-</li>
-            <li>Bi-annyal: separate/includedin: 20,000 pkr
-                <!-- @if ($booking->bi_yearly_type === 'monthly')
-            <p>Bi Yearly Fee added in instalments.</p>
+            <li>Scheme Name: {{$scheme->name}} </li>
+            <li>Total Amount: Rupees {{ $booking->total_amount }}PKR </li>
+            <li>Bi-annyal: {{$booking->bi_yearly_fee}}
+                @if ($booking->bi_yearly_type === 'monthly')
+            Bi Yearly Fee added in instalments.
             @elseif($booking->bi_yearly_type === 'once')
-            <p>Bi yearly fee saperate from monthly instalments.</p>
-            @endif -->
+            Bi yearly fee saperate from monthly instalments.
+            @endif
             </li>
-            <li>Development Charges: {{ $booking->development_charges }}/- status: paid/unpaid</li>
-            <li>Number of installments: 24</li>
-            <li>Amount of installment: 1500 pkr + biannaul if</li>
-            <li>Number of paid installments: 10 upto january 2023</li>
-            <li>Down Payment: Rupees {{ $booking->down_payment}}/-</li>
-            <li>Total amount paid: 200,000 </li>
-            <li>Total amount remaining: {{ $booking->remaining_amount }}/-</li>
+            <li>Development Charges: {{ $booking->development_charges }} PKR. Status: {{$booking->dev_charges_status}} </li>
+            <li>Number of installments: {{ $booking->instalment_duration }}</li>
+            <li>Amount of installment: {{ $booking->instalment_per_month}} PKR. </li>
+            <li>Number of paid installments: {{ $booking->instalment_duration - $booking->remaining_duration }}</li>
+            <li>Down Payment: Rupees {{ $booking->down_payment}} PKR</li>
+            <li>Total amount paid: {{ $booking->total_amount - $booking->remaining_amount }} PKR</li>
+            <li>Total amount remaining: {{ $booking->remaining_amount }} PKR</li>
             <!-- <li>Price/Square feet: Rupees {{ $booking->price_square_feet }}/-</li>
         <li>Amount: Rupees {{$booking->bi_yearly_fee}}</li>
         <li> Instalment/Month: Rupees {{ $booking->instalment_per_month}}/-</li>
