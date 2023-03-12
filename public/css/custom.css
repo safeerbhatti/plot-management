@@ -21,28 +21,58 @@
   min-height: calc(100vh - 170.8px);
 }
 
-.plot-profile_list ul, .plot-profile_customer-info_list{
+.plot-profile_list ul,
+.plot-profile_customer-info_list {
   list-style: none;
   text-decoration: none;
 }
-.plot-profile_list ul li{
+
+.plot-profile_list ul li {
   margin-block: 0.5rem;
   font-weight: bold;
 }
 
-.search-bar_form > div > label {
+.search-bar_form>div>label {
   margin-inline: 2rem;
 }
 
-.scheme-logo{
+.scheme-logo {
   width: 100px;
 }
 
 
-.plot-info > div{
+.plot-info>div {
   flex-basis: 30%;
+  gap: 2rem;
 }
 
 .plot-info_table td {
- padding-block: 3rem;
+  padding-block: 3rem;
+}
+
+.booking-form {
+  position: relative;
+  gap: 3rem;
+}
+
+.booking-form>div {
+  flex-basis: 30%;
+}
+
+.booking-form > button {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 350px;
+
+}
+
+@media screen and (max-width: 992px){
+  .booking-form {
+    flex-direction: column;
+  }
+  .booking-form>div {
+    width: 100%;
+  }
 }
