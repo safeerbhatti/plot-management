@@ -33,3 +33,16 @@
 .search-bar_form > div > label {
   margin-inline: 2rem;
 }
+
+.scheme-logo{
+  width: 100px;
+}
+
+
+.plot-info > div{
+  flex-basis: 30%;
+}
+
+.plot-info_table td {
+ padding-block: 3rem;
+}

@@ -15,8 +15,22 @@
         </form>
     </div>
 
+    <div class="plot-info shadow px-5 py-2 my-2 rounded d-flex bg-white">
+        <div class="d-flex flex-column py-2 my-3">
+            <div>Name of Scheme</div>
+            <img class="scheme-logo my-2 img-fluid rounded-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPgW5i4PRnwi6v1A9oAZcN-Zdi0E4K7r9iMcW7X1qVnQ&s"></img>
+        </div>
+        <div class="d-flex flex-column py-2 my-3">
+            <div class="mb-5">Number of A plots</div>
+            <div>Number of B plots</div>
+        </div>
+        <div class="d-flex flex-column py-2 my-3">
+            <div>Address</div>
+        </div>
+    </div>
+
     <!-- Table From Bootsrap -->
-    <table class="table table-borderless">
+    <table class="plot-info_table table table-borderless">
         <thead class="border-left-primary shadow rounded ">
             <tr class="text-gray-800 font-wieght-bolder py-3">
                 <th scope="col">Plot number and class</th>
