@@ -21,6 +21,8 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('/none/booking', [BookingController::class, 'all']);
+
     Route::post('/{scheme}/invoice/test', [InvoiceController::class, 'store']);
     Route::get('/booking/customers', [BookingController::class, 'viewCustomers']);
     Route::post('/{scheme}/booking/assign', [BookingController::class, 'saveCustomer']);

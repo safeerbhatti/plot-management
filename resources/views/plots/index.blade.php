@@ -17,12 +17,12 @@
 
     <div class="plot-info shadow px-5 py-2 my-2 rounded d-flex bg-white">
         <div class="d-flex flex-column py-2 my-3">
-            <div>Name of Scheme</div>
+            <div>{{$scheme->name}}</div>
             <img class="scheme-logo my-2 img-fluid rounded-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPgW5i4PRnwi6v1A9oAZcN-Zdi0E4K7r9iMcW7X1qVnQ&s"></img>
         </div>
         <div class="d-flex flex-column py-2 my-3">
-            <div class="mb-5">Number of A plots</div>
-            <div>Number of B plots</div>
+            <div class="mb-5">Number of plots: {{$scheme->plots_count}} </div>
+            <div>Available Plots: {{$scheme->availble_plots_count}} </div>
         </div>
         <div class="d-flex flex-column py-2 my-3">
             <div>Address</div>
@@ -45,12 +45,45 @@
             <tr>
                 <!-- <th scope="row">1</th> -->
                 <td>{{ $plot->plot_number }} {{$plot->class}} </td>
-                <td>Booked</td>
+                <td>
+
+                    @if($plot->booking_id !== null)
+                    Booked
+                    @elseif($plot->booking_id === null)
+                    Available
+                    @endif
+
+                </td>
                 <td>{{ $plot->plot_area_in_square_feet }}</td>
-                <td>John</td>
-                <td>1234500</td>
-                <td><button class="btn rounded-pill border-primary mx-2">Transfer</button><button class="btn rounded-pill border-primary">Cancel</button></td>
-                <td><button class="btn rounded-pill border-primary">Book Now</button></td>
+                <td>
+
+                    @if($plot->booking)
+                    @if($plot->booking->customer)
+                    {{ $plot->booking->customer->name }}
+                    @else
+                    N/A
+                    @endif
+                    @else
+                    Unregistered
+                    @endif
+                </td>
+                <td>
+
+                    @if($plot->booking)
+                    {{ $plot->booking->remaining_amount }}
+                    @else
+                    Unregistered
+                    @endif
+
+                </td>
+                <td>
+                    @if($plot->booking)
+                    <button class="btn rounded-pill border-primary">Transfer</button>
+                    <a class="btn rounded-pill border-primary" href="/{{$slug}}/booking/{{$plot->booking->id}}">Details</a>
+                    @else
+                    <button class="btn rounded-pill border-primary mx-2">Book Now</button>
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>

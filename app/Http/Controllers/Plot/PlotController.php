@@ -16,14 +16,22 @@ class PlotController extends Controller
      */
     public function index($scheme)
     {
-        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+        // $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+
+        $scheme = Scheme::withCount([
+            'plots',
+            'plots as availble_plots_count' => function ($query) {
+                $query->where('booking_id', null);
+            },
+        ])->where('slug', $scheme)->first();
 
         $slug = $scheme->slug;
-        $plots = Plot::where('scheme_id', $scheme->id)
-            ->orderBy('class', 'ASC')->orderBy('plot_number')
-            ->get();
 
-        return view('plots.index', compact('plots', 'slug'));
+        $plots = Plot::with('booking.customer')->where('scheme_id', $scheme->id)->get();
+
+        // $plots = Plot::all();
+
+        return view('plots.index', compact('plots', 'slug', 'scheme'));
     }
 
     /**
