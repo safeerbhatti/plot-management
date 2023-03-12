@@ -31,7 +31,7 @@
 
     <!-- Table From Bootsrap -->
     <table class="plot-info_table table table-borderless">
-        <thead class="border-left-primary shadow rounded ">
+        <thead class="border-left-primary shadow rounded">
             <tr class="text-gray-800 font-wieght-bolder py-3">
                 <th scope="col">Plot number and class</th>
                 <th scope="col">Booked/Available</th>
