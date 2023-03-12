@@ -54,21 +54,17 @@
 
     <div class="plot-profile_customer-info">
         <h4 class="card-header font-weight-bold text-primary">Customer(s) Information</h4>
-        @foreach($customers as $customer)
-        <div class="customer-img"><img src="http://plot-management.test/img/undraw_profile.svg" alt="customer-img" class="img-fluid"></div>
+        <div class="customer-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPgW5i4PRnwi6v1A9oAZcN-Zdi0E4K7r9iMcW7X1qVnQ&s" alt="customer-img" class="img-fluid"></div>
         <ul class="plot-profile_customer-info_list list-group list-group-flush">
             <li>1st Ownwer</li>
-            <li>Name: {{$customer->name}}</li>
-            <li>Father Name: {{$customer->name}}</li>
-            <li>Contact Phone: {{$customer->phone}}</li>
+            <li>Name: </li>
+            <li>Father Name: </li>
+            <li>Contact Phone:</li>
             <li>Date of birth: </li>
             <li>Next of kin: </li>
-            <!-- <li>Customer CNIC: {{$customer->cnic}}</li> -->
-            <li>Customer Address: {{$customer->address}}</li>
+            <li>Customer Address: </li>
         </ul>
     </div>
-    @endforeach
-
 </div>
 
 @endsection
