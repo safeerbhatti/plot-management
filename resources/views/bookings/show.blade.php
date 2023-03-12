@@ -57,7 +57,7 @@
         <div class="customer-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPgW5i4PRnwi6v1A9oAZcN-Zdi0E4K7r9iMcW7X1qVnQ&s" alt="customer-img" class="img-fluid"></div>
         <ul class="plot-profile_customer-info_list list-group list-group-flush">
             <li>1st Ownwer</li>
-            <li>Name: </li>
+            <li>Name: {{$booking->customer->name}} </li>
             <li>Father Name: </li>
             <li>Contact Phone:</li>
             <li>Date of birth: </li>
