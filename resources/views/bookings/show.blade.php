@@ -1,48 +1,32 @@
 @extends('layouts.app', ['slug' => $slug]) @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid plot-profile d-flex justify-content-around">
 
-    <ul class="list-group list-group-flush">
-        <li>Plot: {{ $booking->plot->plot_number}} </li>
-        <li>Size: {{ $booking->plot->plot_area_in_square_feet}}</li>
-        <li>Scheme Name</li>
-        <li>Total Amount: Rupees {{ $booking->total_amount }}/-</li>
-        <li>
-            @if ($booking->bi_yearly_type === 'monthly')
+    <div class="plot-profile_list">
+        <ul class="list-group list-group-flush">
+            <li>Plot: {{ $booking->plot->plot_number}} </li>
+            <li>Size: {{ $booking->plot->plot_area_in_square_feet}}</li>
+            <li>Scheme Name: </li>
+            <li>Total Amount: Rupees {{ $booking->total_amount }}/-</li>
+            <li>Bi-annyal: separate/includedin: 20,000 pkr
+                <!-- @if ($booking->bi_yearly_type === 'monthly')
             <p>Bi Yearly Fee added in instalments.</p>
             @elseif($booking->bi_yearly_type === 'once')
             <p>Bi yearly fee saperate from monthly instalments.</p>
-            @endif
-        </li>
-        <li>Development Charges: {{ $booking->development_charges }}/-</li>
-        <li>Booking ID: {{ $booking->id }}</li>
-        <li>Class: {{ $booking->plot->class}}</li>
-    </ul>
-
-    <h4 class="card-header font-weight-bold text-success">Pricing</h4>
-
-    <ul class="list-group list-group-flush">
-        <li>Price/Square feet: Rupees {{ $booking->price_square_feet }}/-</li>
-    </ul>
-
-
-    <h4 class="card-header font-weight-bold text-info">Development Charges</h4>
-
-    <ul class="list-group list-group-flush">
+            @endif -->
+            </li>
+            <li>Development Charges: {{ $booking->development_charges }}/- status: paid/unpaid</li>
+            <li>Number of installments: 24</li>
+            <li>Amount of installment: 1500 pkr + biannaul if</li>
+            <li>Number of paid installments: 10 upto january 2023</li>
+            <li>Down Payment: Rupees {{ $booking->down_payment}}/-</li>
+            <li>Total amount paid: 200,000 </li>
+            <li>Total amount remaining: {{ $booking->remaining_amount }}/-</li>
+            <!-- <li>Price/Square feet: Rupees {{ $booking->price_square_feet }}/-</li>
         <li>Amount: Rupees {{$booking->bi_yearly_fee}}</li>
-    </ul>
-
-    <h4 class="card-header font-weight-bold text-warning">Payment Information</h4>
-
-    <ul class="list-group list-group-flush">
-        <li>Down Payment: Rupees {{ $booking->down_payment}}/-</li>
         <li> Instalment/Month: Rupees {{ $booking->instalment_per_month}}/-</li>
-        <li> Remaining Amount: Rupees {{ $booking->remaining_amount }}/-</li>
         <li> Total Instalment Duration: {{ $booking->instalment_duration }} months</li>
         <li> Remaining Instalments Duration: {{ $booking->remaining_duration }} months</li>
-    </ul>
-
-    <ul class="list-group list-group-flush">
         <li><a href="{{$booking->agreement_file}}">Click here </a>to view Agreement</li>
         <li><a href="/{{$slug}}/invoices/{{$booking->id}}">Click here</a> to check paid invoices</li>
         <li><a href="/{{$slug}}/invoice/pay/{{$booking->id}}">Click here</a> to pay Instalment</li>
@@ -64,17 +48,25 @@
             @endif
         </li>
         <li> <a href="/{{$slug}}/assign/customer/{{$booking->id}}">Click here</a> to assign a Customer</li>
-        <li> Remaining Instalments Duration: {{ $booking->remaining_duration }} months</li>
-    </ul>
+        <li> Remaining Instalments Duration: {{ $booking->remaining_duration }} months</li> -->
+        </ul>
+    </div>
 
-    <h4 class="card-header font-weight-bold text-primary">Customer(s) Information</h4>
-    @foreach($customers as $customer)
-    <ul class="list-group list-group-flush">
-        <li>Customer Name: {{$customer->name}}</li>
-        <li> Customer Phone: {{$customer->phone}}</li>
-        <li> Customer CNIC: {{$customer->cnic}}</li>
-        <li>Customer Address: {{$customer->address}}</li>
-    </ul>
+    <div class="plot-profile_customer-info">
+        <h4 class="card-header font-weight-bold text-primary">Customer(s) Information</h4>
+        @foreach($customers as $customer)
+        <div class="customer-img"><img src="http://plot-management.test/img/undraw_profile.svg" alt="customer-img" class="img-fluid"></div>
+        <ul class="plot-profile_customer-info_list list-group list-group-flush">
+            <li>1st Ownwer</li>
+            <li>Name: {{$customer->name}}</li>
+            <li>Father Name: {{$customer->name}}</li>
+            <li>Contact Phone: {{$customer->phone}}</li>
+            <li>Date of birth: </li>
+            <li>Next of kin: </li>
+            <!-- <li>Customer CNIC: {{$customer->cnic}}</li> -->
+            <li>Customer Address: {{$customer->address}}</li>
+        </ul>
+    </div>
     @endforeach
 
 </div>

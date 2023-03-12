@@ -11,7 +11,7 @@
                 <div class="mt-5">Total plots </div>
                 <div class="my-1">Available plots:</div>
                 <div class="my-1">Booked plots:</div>
-                <div class="w-75 mx-auto mt-4"><a href="#" class="text-uppercase font-weight-bolder btn text-primary text-center border rounded-pill w-100">select</a></div>
+                <div class="w-75 mx-auto mt-4"><a href="/{{$scheme->slug}}/booking" class="text-uppercase font-weight-bolder btn text-primary text-center border rounded-pill w-100">select</a></div>
             </div>
         </div>
         @endforeach

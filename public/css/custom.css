@@ -16,3 +16,16 @@
   color: white !important;
   text-decoration: none;
 }
+
+.plot-profile {
+  min-height: calc(100vh - 170.8px);
+}
+
+.plot-profile_list ul, .plot-profile_customer-info_list{
+  list-style: none;
+  text-decoration: none;
+}
+.plot-profile_list ul li{
+  margin-block: 0.5rem;
+  font-weight: bold;
+}
