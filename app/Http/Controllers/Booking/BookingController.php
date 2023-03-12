@@ -167,11 +167,13 @@ class BookingController extends Controller
     {
         $scheme = Scheme::where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
-        $bookedCustomers = BookedCustomer::where('booking_id', $id)->pluck('customer_id');
-        $customers = Customer::findMany($bookedCustomers);
-        $booking = Booking::find($id);
+        $booking = Booking::with('customer')->find($id);
 
-        return view('bookings.show', compact('booking', 'customers', 'slug'));
+        // $bookedCustomers = BookedCustomer::where('booking_id', $id)->pluck('customer_id');
+        // $customers = Customer::findMany($bookedCustomers);
+        // $booking = Booking::find($id);
+
+        return view('bookings.show', compact('booking', 'slug'));
     }
     /**
      * Show the form for editing the specified resource.
