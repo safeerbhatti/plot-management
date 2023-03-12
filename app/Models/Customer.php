@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Booking;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Customer extends Model
 {
@@ -13,6 +14,11 @@ class Customer extends Model
     public function scheme()
     {
         return $this->belongsTo(Scheme::class);
+    }
+
+    public function Booking()
+    {
+        return $this->belongsTo(Booking::class);
     }
 
 }
