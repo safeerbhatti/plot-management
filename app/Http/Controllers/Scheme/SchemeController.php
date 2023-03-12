@@ -15,7 +15,17 @@ class SchemeController extends Controller
      */
     public function index()
     {
-        $schemes = Scheme::all();
+        // $schemes = Scheme::withCount('plots')->get();
+
+        $schemes = Scheme::withCount([
+            'plots',
+            'plots as availble_plots_count' => function ($query) {
+                $query->where('booking_id', null);
+            },
+        ])->get();
+        
+
+        // $schemes = Scheme::all();
         $slug = 'none';
         return view('schemes.index', compact('schemes', 'slug'));
     }
