@@ -2,7 +2,8 @@
 
 <div class="container-fluid plot-profile d-flex justify-content-around">
 
-    <div class="plot-profile_list text-gray-800">
+    <div class="plot-profile_list">
+        <h4 class="font-weight-bold text-primary">Booking Details</h4>
         <ul class="list-group list-group-flush">
             <li>Plot: {{ $booking->plot->plot_number}} </li>
             <li>Size: {{ $booking->plot->plot_area_in_square_feet}}</li>
@@ -53,8 +54,8 @@
     </div>
 
     <div class="plot-profile_customer-info">
-        <h4 class="card-header font-weight-bold text-primary">Customer(s) Information</h4>
-        <div class="customer-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPgW5i4PRnwi6v1A9oAZcN-Zdi0E4K7r9iMcW7X1qVnQ&s" alt="customer-img" class="img-fluid"></div>
+        <h4 class="font-weight-bold text-primary">Customer(s) Information</h4>
+        <div class="customer-img my-5"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPgW5i4PRnwi6v1A9oAZcN-Zdi0E4K7r9iMcW7X1qVnQ&s" alt="customer-img" class="img-fluid"></div>
         <ul class="plot-profile_customer-info_list list-group list-group-flush">
             <li>1st Ownwer</li>
             <li>Name: </li>
@@ -65,8 +66,6 @@
             <li>Customer Address: </li>
         </ul>
     </div>
-    @endforeach
-
 </div>
 
 @endsection
