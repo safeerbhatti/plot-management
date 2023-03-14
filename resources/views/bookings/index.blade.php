@@ -39,7 +39,7 @@
 
                 </td>
                 <td> {{$booking->remaining_amount}} </td>
-                <td><a class="btn rounded-pill border-primary mx-2" href="/{{$slug}}/booking/{{$booking->id}}">Details</a><button class="btn rounded-pill border-primary">Transfer</button></td>
+                <td><a class="btn rounded-pill border-primary mx-2" href="/{{$slug === null ? $booking->scheme->slug : $slug }}/booking/{{$booking->id}}">Details</a><button class="btn rounded-pill border-primary">Transfer</button></td>
                 <td><button class="btn rounded-pill border-primary">Cancel</button></td>
             </tr>
             @endforeach

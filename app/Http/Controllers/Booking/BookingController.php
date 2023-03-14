@@ -21,12 +21,25 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($scheme)
+    public function index($scheme = 'none')
     {
 
-        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
-        $slug = $scheme->slug;
-        $bookings = Booking::with('plot', 'customer')->where('scheme_id', $scheme->id)->get();
+        $bookings = null;
+        $slug = null;
+
+        if($scheme === 'none')
+        {
+            $bookings = Booking::with('scheme')->get();
+            $scheme = null;
+        }
+        else
+        {
+            $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+            $slug = $scheme->slug;
+            $bookings = Booking::with('plot', 'customer')->where('scheme_id', $scheme->id)->get();
+    
+        }
+
 
         return view('bookings.index', compact('bookings', 'slug', 'scheme'));
     }
@@ -75,9 +88,12 @@ class BookingController extends Controller
             'agreement_file' => 'required|mimes:jpeg,png,jpg|max:2048',
             'biYearlyRadio' => 'required',
             'class' => 'required',
+            'customer_name' => 'required',
+            'customer_father' => 'required',
+            'customer_cnic' => 'required',
+            'customer_address' => 'required',
+            'customer_phone' => 'required',
         ]);
-
-
 
         $scheme = Scheme::where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
@@ -94,25 +110,22 @@ class BookingController extends Controller
         ->where('class', $validated['class'])
         ->where('scheme_id', $scheme->id)->first();
 
-
         if (!$plot) {
             return 'Plot number does not exist';
         }
 
         $amount = 0;
-        $biFee = 0;
+        $biFee = $validated['bi-yearly-fee'];
 
         if ($validated['biYearlyRadio'] === 'once') {
-            $amount = ($validated['price_square_feet'] * $plot->plot_area_in_square_feet);
-            $biFee = $validated['bi-yearly-fee'];
+            $amount = (($validated['price_square_feet'] * $plot->plot_area_in_square_feet) - 
+            $validated['bi-annual-fee'] - 
+            $validated['development_charges']);
         } else if ($validated['biYearlyRadio'] === 'monthly') {
-            $amount = ($validated['price_square_feet'] * $plot->plot_area_in_square_feet) + $validated['bi-yearly-fee'];
-            $biFee = $validated['bi-yearly-fee'];
+            $amount = ($validated['price_square_feet'] * $plot->plot_area_in_square_feet) - $validated['development_charges'];
         }
 
         $duration = $validated['instalment_duration'];
-
-
         $remainingAmount = $amount - $validated['down_payment'];
         $monthlyInstalment = $remainingAmount / $duration;
 
@@ -133,6 +146,7 @@ class BookingController extends Controller
             'bi_yearly_type' => $validated['biYearlyRadio'],
             'scheme_id' => $scheme->id,
             'plot_id' => $plot->id,
+            'first_owner' => $validated['customer_name'],
             
         ]);
         $plot->booking_id = $booking->id;
@@ -142,27 +156,20 @@ class BookingController extends Controller
             'booking_id' => $booking->id,
         ]);
 
-        $customer = null;
+        $customer = Customer::create([
+            'name' => $validated['customer_name'],
+            'cnic' => $validated['customer_cnic'],
+            'address' => $validated['customer_address'],
+            'phone' => $validated['customer_phone'],
+            'father_name' => $validated['customer_father'],
+            'scheme_id' => $scheme->id,
+            'booking_id' => $booking->id,
+        ]);
 
-        if($request->filled('customer_name') && $request->filled('customer_phone') 
-        && $request->filled('customer_address') && $request->filled('customer_cnic'))
-        {
-            $customer = Customer::create([
-                'name' => $request->input('customer_name'),
-                'cnic' => $request->input('customer_cnic'),
-                'address' => $request->input('customer_address'),
-                'phone' => $request->input('customer_phone'),
-                'scheme_id' => $scheme->id,
-                
-            ]);
+        $booking->customer_id = $customer->id;
+        $booking->save();
 
-            BookedCustomer::create([
-                'customer_id' => $customer->id,
-                'booking_id' => $booking->id,
-            ]);
-        }
-
-        return redirect('/' . $slug . '/booking');
+        return redirect('/' . $slug .'/'.'booking/'.$booking->id);
     }
 
     /**

@@ -21,8 +21,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/none/booking', [BookingController::class, 'all']);
-
+    Route::get('/none/booking', [BookingController::class, 'index']);
     Route::post('/{scheme}/invoice/test', [InvoiceController::class, 'store']);
     Route::get('/booking/customers', [BookingController::class, 'viewCustomers']);
     Route::post('/{scheme}/booking/assign', [BookingController::class, 'saveCustomer']);
@@ -39,11 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/bi-yearly/pay/{id}', [InvoiceController::class, 'payBiYearly']);
     Route::post('/dev-charges', [InvoiceController::class, 'storeDevCharges']);
     Route::get('/dev-charges/pay/{id}', [InvoiceController::class, 'payDevCharges']);
-
     Route::get('/scheme/profile/{id}', [ProfileController::class, 'profile']);
-    
     Route::delete('/scheme/delete/{id}', [SchemeController::class, 'destroy'])->name('scheme');
-
 
     Route::resource('{scheme}/customer', CustomerController::class);
     Route::resource('{scheme}/plot', PlotController::class);
@@ -53,7 +49,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('{scheme}/account', AccountController::class);
 
     Route::prefix('{slug}')->group(function () {
-
     });
  });
  
