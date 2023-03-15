@@ -23,10 +23,8 @@ class PlotController extends Controller
             'plots as availble_plots_count' => function ($query) {
                 $query->where('booking_id', null);
             },
-        ])->where('slug', $scheme)->first();
-
+        ])->where('slug', $scheme)->firstOrFail();
         $slug = $scheme->slug;
-
         $plots = Plot::with('booking.customer')->where('scheme_id', $scheme->id)->get();
 
         // $plots = Plot::all();
@@ -74,7 +72,6 @@ class PlotController extends Controller
                         'plot_number' => $plot,
                         'scheme_id' => $scheme->id,
                         'class' => $validated['class'],
-
                     ],
                     [
                         'plot_area_in_square_feet' => $validated['plot_area_in_square_feet'],
