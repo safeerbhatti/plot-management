@@ -12,21 +12,43 @@
                             <input type="hidden" name="size" value="" />
                             <input type="hidden" name="slug" id="slug" class="slug" value="{{ $slug }}" />
                             <div class="form-group row">
+
+                                @if($class !== 'none')
+                                <div class="w-100">
+                                    <input type="text" name="class" id="class" class="form-control" value="{{$class}}" placeholder="Class" readonly />
+                                    @error('class')
+                                    {{ $message }}
+                                    @enderror
+                                </div>
+                                @else
                                 <div class="w-100">
                                     <input type="text" name="class" id="class" class="form-control" value="{{ old('class') }}" placeholder="Class" />
                                     @error('class')
                                     {{ $message }}
                                     @enderror
                                 </div>
+                                @endif
+
                             </div>
                             <div class="form-group row">
+
+                                @if($number !== 'none')
+                                <div class="w-100">
+                                    <input type="text" name="plot_number" id="plot_number" value="{{ $number }}" class="form-control" placeholder="Plot Number" readonly/>
+                                    @error('plot_number')
+                                    {{ $message }}
+                                    @enderror
+                                </div>
+                                @else
                                 <div class="w-100">
                                     <input type="text" name="plot_number" id="plot_number" value="{{ old('plot_number') }}" class="form-control" placeholder="Plot Number" />
                                     @error('plot_number')
                                     {{ $message }}
                                     @enderror
                                 </div>
-                                {{-- <label for="plot_number">Plot Number</label>
+                                @endif
+
+                            <!-- {{-- <label for="plot_number">Plot Number</label>
                             <select
                                 name="plot_number[]"
                                 id="plot_number"
@@ -38,7 +60,7 @@
                                 </option>
                                 @endforeach
                                 </select>
-                                --}}
+                                --}} -->
                             </div>
                             <div id="details" class="">
                                 <div class="form-group row">
@@ -231,12 +253,12 @@
     var plot_price;
     var final_total_amount;
     var final_down_payment
+    var plot_area_in_feet = 0;
 
     $(document).ready(function() {
-        $("#class").on("change", function() {
-            $("#plot_number").on("change", function() {
-                var plot_number =
-                    $("#class").val() + "@" + $("#plot_number").val();
+        $("#price_square_feet").on("change", function() {
+
+                var plot_number = $("#class").val() + "@" + $("#plot_number").val();
                 var slug = "/" + $("#slug").val();
                 $.ajax({
                     url: slug + "/plot/" + plot_number,
@@ -249,6 +271,12 @@
                             $("#details").show();
                             $("#plot_area_feet").text(data.plot_area_in_square_feet);
 
+                            var square_price = $("#price_square_feet").val();
+                            $("#square_price").text(square_price);
+
+                            var plot_size = $('input[name="size"]').val();
+                            plot_price = square_price * plot_size;
+
                         } else if (jQuery.isEmptyObject(data)) {
                             alert("Plot number does not exist");
                         } else {
@@ -256,38 +284,6 @@
                         }
                     },
                 });
-            });
-        });
-
-        $("#plot_number").on("change", function() {
-            $("#class").on("change", function() {
-                var plot_number =
-                    $("#class").val() + "@" + $("#plot_number").val();
-                $.ajax({
-                    url: "/plot/" + plot_number,
-                    type: "GET",
-                    success: function(data) {
-                        if (data.booking_id === 0 || data.booking_id === null) {
-                            $('input[name="size"]').val(
-                                data.plot_area_in_square_feet
-                            );
-                            $("#details").show();
-                            console.log('change happened')
-                        } else {
-                            alert("A booking already exists");
-                        }
-                    },
-                });
-            });
-        });
-
-        $("#price_square_feet").on("change", function() {
-            var square_price = $("#price_square_feet").val();
-            $("#square_price").text(square_price);
-
-            var plot_size = $('input[name="size"]').val();
-            plot_price = square_price * plot_size;
-
         });
 
         $("#down_payment").on("change", function() {

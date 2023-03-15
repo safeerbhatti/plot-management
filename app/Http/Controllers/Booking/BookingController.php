@@ -40,8 +40,8 @@ class BookingController extends Controller
     
         }
 
-
         return view('bookings.index', compact('bookings', 'slug', 'scheme'));
+
     }
 
     public function all()
@@ -56,7 +56,7 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($scheme)
+    public function create($scheme, $number = null, $class = null)
     {
         // get all plots
         $plots = Plot::all();
@@ -64,7 +64,16 @@ class BookingController extends Controller
         $slug = $scheme->slug;
         $customers = Customer::all();
 
-        return view('bookings.create', compact('plots', 'slug', 'customers'));
+        if($number === null && $class === null)
+        {
+            $number = 'none';
+            $class = 'none';
+            return view('bookings.create', compact('plots', 'slug', 'customers', 'class', 'number'));
+        }
+        else if($number && $class)
+        {
+            return view('bookings.create', compact('plots', 'slug', 'customers', 'class', 'number'));
+        }
     }
 
     /**

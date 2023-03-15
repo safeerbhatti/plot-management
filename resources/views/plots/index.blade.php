@@ -81,7 +81,7 @@
                     <button class="btn rounded-pill border-primary">Transfer</button>
                     <a class="btn rounded-pill border-primary" href="/{{$slug}}/booking/{{$plot->booking->id}}">Details</a>
                     @else
-                    <button class="btn rounded-pill border-primary mx-2">Book Now</button>
+                    <a class="btn rounded-pill border-primary mx-2" href="/{{$slug}}/booking/create/{{$plot->plot_number}}/{{$plot->class}}">Book Now</a>
                     @endif
                 </td>
             </tr>

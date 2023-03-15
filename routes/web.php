@@ -21,6 +21,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('/{scheme}/booking/create/{number}/{class}', [BookingController::class, 'create']);
     Route::get('/none/booking', [BookingController::class, 'index']);
     Route::post('/{scheme}/invoice/test', [InvoiceController::class, 'store']);
     Route::get('/booking/customers', [BookingController::class, 'viewCustomers']);
