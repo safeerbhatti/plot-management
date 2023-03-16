@@ -17,8 +17,6 @@ Route::get('/dashboard', function () {
     return redirect('/');
 });
 
-// Route::get('/', [SchemeController::class, 'index']);
-
 Route::get('/print-invoice', function() {
     return view('invoices.reciept');
 });
