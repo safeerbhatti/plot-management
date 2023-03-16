@@ -19,8 +19,15 @@ Route::get('/dashboard', function () {
 
 // Route::get('/', [SchemeController::class, 'index']);
 
-Route::middleware('auth')->group(function () {
+Route::get('/print-invoice', function() {
+    return view('invoices.reciept');
+});
 
+Route::get('/print-booking', function() {
+    return view('invoices.booking');
+});
+
+Route::middleware('auth')->group(function () {
     Route::get('/{scheme}/booking/create/{number}/{class}', [BookingController::class, 'create']);
     Route::get('/none/booking', [BookingController::class, 'index']);
     Route::post('/{scheme}/invoice/test', [InvoiceController::class, 'store']);
