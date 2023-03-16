@@ -142,8 +142,12 @@ class PlotController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($scheme, $id)
     {
-        //
+        $scheme = Scheme::where('slug', $scheme)->firstOrFail();
+        $plot = Plot::destroy($id);
+
+        return redirect('/'.$scheme->slug.'/plot');
+
     }
 }

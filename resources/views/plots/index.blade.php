@@ -18,14 +18,15 @@
     <div class="plot-info shadow px-5 py-2 my-2 rounded d-flex bg-white">
         <div class="d-flex flex-column py-2 my-3">
             <div>{{$scheme->name}}</div>
-            <img class="scheme-logo my-2 img-fluid rounded-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPgW5i4PRnwi6v1A9oAZcN-Zdi0E4K7r9iMcW7X1qVnQ&s"></img>
+            <img class="scheme-logo my-2 img-fluid rounded-circle" src="{{$scheme->picture}}"></img>
         </div>
         <div class="d-flex flex-column py-2 my-3">
             <div class="mb-5">Number of plots: {{$scheme->plots_count}} </div>
             <div>Available Plots: {{$scheme->availble_plots_count}} </div>
         </div>
         <div class="d-flex flex-column py-2 my-3">
-            <div>Address</div>
+            <div>Address: {{$scheme->address}}</div>
+            <div>Contact Number: {{$scheme->contact_number}}</div>
         </div>
     </div>
 
@@ -82,24 +83,17 @@
                     <a class="btn rounded-pill border-primary" href="/{{$slug}}/booking/{{$plot->booking->id}}">Details</a>
                     @else
                     <a class="btn rounded-pill border-primary mx-2" href="/{{$slug}}/booking/create/{{$plot->plot_number}}/{{$plot->class}}">Book Now</a>
+                    <form method="POST" action="/{{$slug}}/plot/{{$plot->id}}">
+                        @csrf
+                        @method('DELETE')
+                        <button class="mt-2 btn rounded-pill border-primary mx-2" type="submit">Delete</button>
+                    </form>
                     @endif
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-    <!-- Bootstrap table end -->
-
-    <!-- @foreach($plots as $plot)
-    <div class="card shadow border-left-primary text-gray-800">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Scheme Name : {{ $plot->scheme->name }} </li>
-            <li class="list-group-item">Class: {{$plot->class}} </li>
-            <li class="list-group-item">Plot Number: {{ $plot->plot_number }} </li>
-            <li class="list-group-item">Plot Area: {{ $plot->plot_area_in_square_feet }}</li>
-        </ul>
-    </div>
-    @endforeach -->
     @endif
 </div>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Scheme;
 use App\Models\Scheme;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class SchemeController extends Controller
 {
@@ -59,10 +60,21 @@ class SchemeController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:schemes,slug',
+            'address' => 'required',
+            'contact_number' => 'required',
+            'picture' => 'required',
         ]);
 
+        $file = $request->file('picture');
+        $newName = time() . '.' . $file->getClientOriginalExtension();
+        $path = Storage::putFileAs('public/files', $file, $newName);
+
+        $newPath = substr($path, 6);
+        $path = env('APP_URL') . 'storage' . $newPath;
+        $validated['picture'] = $path;
+
         Scheme::create($validated);
-        return redirect('/scheme');
+        return redirect('/'.$validated['slug'].'/plot');
     }
 
     /**

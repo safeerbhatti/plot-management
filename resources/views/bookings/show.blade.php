@@ -5,9 +5,12 @@
     <div class="plot-profile_list">
         <h4 class="font-weight-bold text-primary">Booking Details</h4>
         <ul class="list-group list-group-flush">
-            <li>Plot: {{ $booking->plot->plot_number}} </li>
+            <li>Plot: {{ $booking->plot->class}} {{ $booking->plot->plot_number}} </li>
+            <li>Booking ID: {{ $booking->plot->id}} </li>
             <li>Size: {{ $booking->plot->plot_area_in_square_feet}}</li>
             <li>Scheme Name: {{$scheme->name}} </li>
+            <li>Khata Number: {{$booking->khata_number}} </li>
+            <li>Agreement Number: {{$booking->agreement_number}} </li>
             <li>Total Amount: Rupees {{ $booking->total_amount }}PKR </li>
             <li>Bi-annyal: {{$booking->bi_yearly_fee}}
                 @if ($booking->bi_yearly_type === 'monthly')
@@ -23,6 +26,7 @@
             <li>Down Payment: Rupees {{ $booking->down_payment}} PKR</li>
             <li>Total amount paid: {{ $booking->total_amount - $booking->remaining_amount }} PKR</li>
             <li>Total amount remaining: {{ $booking->remaining_amount }} PKR</li>
+            <li> <a target="_blank" href="{{$booking->agreement_file}}">Agreement File</a> </li>
             <!-- <li>Price/Square feet: Rupees {{ $booking->price_square_feet }}/-</li>
         <li>Amount: Rupees {{$booking->bi_yearly_fee}}</li>
         <li> Instalment/Month: Rupees {{ $booking->instalment_per_month}}/-</li>
@@ -59,6 +63,7 @@
         <ul class="plot-profile_customer-info_list list-group list-group-flush">
             <li>1st Owner {{$booking->first_owner}}</li>
             <li>Name: {{$booking->customer->name}} </li>
+            <li>CNIC: {{$booking->customer->name}} </li>
             <li>Father Name: {{$booking->customer->father_name}}</li>
             <li>Contact Phone: {{$booking->customer->phone}}</li>
             <li>Date of birth: N/A</li>
